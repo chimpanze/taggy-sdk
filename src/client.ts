@@ -10,6 +10,17 @@ import { createErrorHandler } from './interceptors/error';
 import { AuthService } from './services/auth';
 import { ContentService } from './services/content';
 import { TagService } from './services/tag';
+import { ArchiveService } from './services/archive';
+import { CollectionsService } from './services/collections';
+import { FilesService } from './services/files';
+import { LikesService } from './services/likes';
+import { MediaService } from './services/media';
+import { SearchService } from './services/search';
+import { SharingService } from './services/sharing';
+import { ExtensionService } from './services/extension';
+import { AIService } from './services/ai';
+import { CommentsService } from './services/comments';
+import { SystemService } from './services/system';
 import {CustomRequestInit, TaggyFetcher} from "./types/fetch.ts";
 
 /**
@@ -25,6 +36,17 @@ export class TaggyClient {
   readonly auth: AuthService;
   readonly content: ContentService;
   readonly tags: TagService;
+  readonly archive: ArchiveService;
+  readonly collections: CollectionsService;
+  readonly files: FilesService;
+  readonly likes: LikesService;
+  readonly media: MediaService;
+  readonly search: SearchService;
+  readonly sharing: SharingService;
+  readonly extension: ExtensionService;
+  readonly ai: AIService;
+  readonly comments: CommentsService;
+  readonly system: SystemService;
 
   /**
    * Creates a new TaggyClient instance
@@ -62,6 +84,17 @@ export class TaggyClient {
     this.auth = new AuthService(this.fetcher);
     this.content = new ContentService(this.fetcher);
     this.tags = new TagService(this.fetcher);
+    this.archive = new ArchiveService(this.fetcher);
+    this.collections = new CollectionsService(this.fetcher);
+    this.files = new FilesService(this.fetcher);
+    this.likes = new LikesService(this.fetcher);
+    this.media = new MediaService(this.fetcher);
+    this.search = new SearchService(this.fetcher);
+    this.sharing = new SharingService(this.fetcher);
+    this.extension = new ExtensionService(this.fetcher);
+    this.ai = new AIService(this.fetcher);
+    this.comments = new CommentsService(this.fetcher);
+    this.system = new SystemService(this.fetcher);
   }
   
   /**

@@ -1,10 +1,10 @@
 /**
  * Auth Interceptor
- * Axios interceptor for handling authentication
  */
 
-import { InternalAxiosRequestConfig } from 'axios';
 import { AuthConfig } from '../config';
+import {CustomRequestInit} from "../types/fetch.ts";
+import type {ApiResponse} from "openapi-typescript-fetch";
 
 /**
  * Creates an authentication interceptor for Axios
@@ -12,35 +12,29 @@ import { AuthConfig } from '../config';
  * @returns Axios request interceptor function
  */
 export function createAuthInterceptor(authConfig: AuthConfig) {
-  return async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
+  return async (url: string, init: CustomRequestInit, next: (url: string, init: CustomRequestInit) => Promise<ApiResponse>) => {
     // Skip authentication for auth endpoints
-    if (config.url?.startsWith('/auth/login') || config.url?.startsWith('/auth/register')) {
-      return config;
+    if (url?.startsWith('/auth/login') || url?.startsWith('/auth/register')) {
+      return next(url, init);
     }
 
     // Clone the config to avoid modifying the original
-    const newConfig = { ...config };
+    const newConfig = { ...init };
 
     // Use custom token provider if available
     if (authConfig.getToken) {
       const token = await authConfig.getToken();
-      newConfig.headers.Authorization = `Bearer ${token}`;
-      return newConfig;
-    }
-
-    // Use API key if available
-    if (authConfig.apiKey) {
-      newConfig.headers['X-API-Key'] = authConfig.apiKey;
-      return newConfig;
+      newConfig.headers.set('Authorization', `Bearer ${token}`);
+      return next(url, newConfig);
     }
 
     // Use JWT token if available
     if (authConfig.token) {
-      newConfig.headers.Authorization = `Bearer ${authConfig.token}`;
-      return newConfig;
+      newConfig.headers.set('Authorization', `Bearer ${authConfig.token}`);
+      return next(url, newConfig);
     }
 
     // No authentication provided
-    return newConfig;
+    return next(url, newConfig);
   };
 }

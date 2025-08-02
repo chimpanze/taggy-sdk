@@ -6,11 +6,11 @@
 import { BaseService } from './base';
 import { paths } from "../types/generated.ts";
 import { TaggyFetcher } from "../types/fetch.ts";
-import {OpArgType, OpReturnType} from "openapi-typescript-fetch/types";
+import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
 
-type UserResponse = OpReturnType<paths['/auth/user']['get']>
-type ValidateResponse = OpReturnType<paths['/auth/validate']['post']>
-type ValidateRequestData = OpArgType<paths['/auth/validate']['post']>
+type GetUserProfileResponse = OpReturnType<paths['/auth/user']['get']>
+type ValidateTokenRequestData = OpArgType<paths['/auth/validate']['post']>
+type ValidateTokenResponse = OpReturnType<paths['/auth/validate']['post']>
 
 /**
  * Service for authentication operations
@@ -25,18 +25,19 @@ export class AuthService extends BaseService {
   }
 
   /**
-   * Get the current user profile
+   * Get current user profile
    * @returns Promise with user profile data
    */
-  async getCurrentUser(): Promise<UserResponse> {
-    return this.get('/auth/user');
+  async getCurrentUser(): Promise<GetUserProfileResponse> {
+    return this.get<'/auth/user'>('/auth/user');
   }
 
   /**
-   * Get the current user profile
-   * @returns Promise with user profile data
+   * Validate JWT token
+   * @param data Token validation request data
+   * @returns Promise with validation response
    */
-  async validate(data: ValidateRequestData): Promise<ValidateResponse> {
-    return this.post('/auth/validate', data);
+  async validateToken(data: ValidateTokenRequestData): Promise<ValidateTokenResponse> {
+    return this.post<'/auth/validate'>('/auth/validate', data);
   }
 }

@@ -14,6 +14,17 @@ export { defaultConfig } from './config';
 export { AuthService } from './services/auth';
 export { ContentService } from './services/content';
 export { TagService } from './services/tag';
+export { ArchiveService } from './services/archive';
+export { CollectionsService } from './services/collections';
+export { FilesService } from './services/files';
+export { LikesService } from './services/likes';
+export { MediaService } from './services/media';
+export { SearchService } from './services/search';
+export { SharingService } from './services/sharing';
+export { ExtensionService } from './services/extension';
+export { AIService } from './services/ai';
+export { CommentsService } from './services/comments';
+export { SystemService } from './services/system';
 
 // Export error classes
 export {

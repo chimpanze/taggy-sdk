@@ -20,11 +20,6 @@ export interface AuthConfig {
   token?: string;
   
   /**
-   * Refresh token for refreshing JWT
-   */
-  refreshToken?: string;
-  
-  /**
    * Custom function to get authentication token
    */
   getToken?: () => Promise<string>;
