@@ -4,17 +4,17 @@
  */
 
 import { BaseService } from './base';
-import {paths} from "../types/generated.ts";
-import {TaggyFetcher} from "../types/fetch.ts";
-import {OpArgType, OpReturnType} from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type SearchRequestParams = OpArgType<paths['/search']['get']>
-type SearchResponse = OpReturnType<paths['/search']['get']>
-type RecentSearchRequestParams = OpArgType<paths['/search/recent']['get']>
-type RecentSearchResponse = OpReturnType<paths['/search/recent']['get']>
-type SearchSuggestionsResponse = OpReturnType<paths['/search/suggestions']['get']>
-type TrendingSearchRequestParams = OpArgType<paths['/search/trending']['get']>
-type TrendingSearchResponse = OpReturnType<paths['/search/trending']['get']>
+type SearchRequestParams = OpArgType<paths['/search']['get']>;
+type SearchResponse = OpReturnType<paths['/search']['get']>;
+type RecentSearchRequestParams = OpArgType<paths['/search/recent']['get']>;
+type RecentSearchResponse = OpReturnType<paths['/search/recent']['get']>;
+type SearchSuggestionsResponse = OpReturnType<paths['/search/suggestions']['get']>;
+type TrendingSearchRequestParams = OpArgType<paths['/search/trending']['get']>;
+type TrendingSearchResponse = OpReturnType<paths['/search/trending']['get']>;
 
 /**
  * Service for search operations

@@ -4,13 +4,13 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetUserProfileResponse = OpReturnType<paths['/auth/user']['get']>
-type ValidateTokenRequestData = OpArgType<paths['/auth/validate']['post']>
-type ValidateTokenResponse = OpReturnType<paths['/auth/validate']['post']>
+type GetUserProfileResponse = OpReturnType<paths['/auth/user']['get']>;
+type ValidateTokenRequestData = OpArgType<paths['/auth/validate']['post']>;
+type ValidateTokenResponse = OpReturnType<paths['/auth/validate']['post']>;
 
 /**
  * Service for authentication operations

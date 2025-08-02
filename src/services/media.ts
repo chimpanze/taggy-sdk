@@ -4,19 +4,19 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type DeleteMediaResponse = OpReturnType<paths['/media/{id}']['delete']>
-type FetchMediaRequestData = OpArgType<paths['/media/fetch']['post']>
-type FetchMediaResponse = OpReturnType<paths['/media/fetch']['post']>
-type FetchAudioRequestData = OpArgType<paths['/media/fetch-audio']['post']>
-type FetchAudioResponse = OpReturnType<paths['/media/fetch-audio']['post']>
-type FetchStatusResponse = OpReturnType<paths['/media/fetch-status/{jobId}']['get']>
-type MediaFormatsResponse = OpReturnType<paths['/media/formats/{url}']['get']>
-type MediaSettingsResponse = OpReturnType<paths['/media/settings']['get']>
-type UpdateMediaSettingsRequestData = OpArgType<paths['/media/settings']['put']>
+type DeleteMediaResponse = OpReturnType<paths['/media/{id}']['delete']>;
+type FetchMediaRequestData = OpArgType<paths['/media/fetch']['post']>;
+type FetchMediaResponse = OpReturnType<paths['/media/fetch']['post']>;
+type FetchAudioRequestData = OpArgType<paths['/media/fetch-audio']['post']>;
+type FetchAudioResponse = OpReturnType<paths['/media/fetch-audio']['post']>;
+type FetchStatusResponse = OpReturnType<paths['/media/fetch-status/{jobId}']['get']>;
+type MediaFormatsResponse = OpReturnType<paths['/media/formats/{url}']['get']>;
+type MediaSettingsResponse = OpReturnType<paths['/media/settings']['get']>;
+type UpdateMediaSettingsRequestData = OpArgType<paths['/media/settings']['put']>;
 
 /**
  * Service for media operations
@@ -63,7 +63,9 @@ export class MediaService extends BaseService {
    * @returns Promise with media job status
    */
   async getFetchStatus(jobId: string): Promise<FetchStatusResponse> {
-    return this.get<`/media/fetch-status/{jobId}`>(`/media/fetch-status/${jobId}` as '/media/fetch-status/{jobId}');
+    return this.get<`/media/fetch-status/{jobId}`>(
+      `/media/fetch-status/${jobId}` as '/media/fetch-status/{jobId}',
+    );
   }
 
   /**

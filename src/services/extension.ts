@@ -4,26 +4,26 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
 // Type aliases for request and response data
-type GetAISuggestionsResponse = OpReturnType<paths['/extension/ai-suggestions/{contentId}']['get']>
-type ArchivePageRequestData = OpArgType<paths['/extension/archive']['post']>
-type ArchivePageResponse = OpReturnType<paths['/extension/archive']['post']>
-type GetMediaJobResponse = OpReturnType<paths['/extension/media-job/{jobId}']['get']>
-type QuickTagRequestData = OpArgType<paths['/extension/quick-tag']['post']>
-type QuickTagResponse = OpReturnType<paths['/extension/quick-tag']['post']>
-type SaveBookmarkRequestData = OpArgType<paths['/extension/save-bookmark']['post']>
-type SaveBookmarkResponse = OpReturnType<paths['/extension/save-bookmark']['post']>
-type SaveImageRequestData = OpArgType<paths['/extension/save-image']['post']>
-type SaveImageResponse = OpReturnType<paths['/extension/save-image']['post']>
-type SaveTextRequestData = OpArgType<paths['/extension/save-text']['post']>
-type SaveTextResponse = OpReturnType<paths['/extension/save-text']['post']>
-type SaveVideoRequestData = OpArgType<paths['/extension/save-video']['post']>
-type SaveVideoResponse = OpReturnType<paths['/extension/save-video']['post']>
-type GetTagsResponse = OpReturnType<paths['/extension/tags']['get']>
+type GetAISuggestionsResponse = OpReturnType<paths['/extension/ai-suggestions/{contentId}']['get']>;
+type ArchivePageRequestData = OpArgType<paths['/extension/archive']['post']>;
+type ArchivePageResponse = OpReturnType<paths['/extension/archive']['post']>;
+type GetMediaJobResponse = OpReturnType<paths['/extension/media-job/{jobId}']['get']>;
+type QuickTagRequestData = OpArgType<paths['/extension/quick-tag']['post']>;
+type QuickTagResponse = OpReturnType<paths['/extension/quick-tag']['post']>;
+type SaveBookmarkRequestData = OpArgType<paths['/extension/save-bookmark']['post']>;
+type SaveBookmarkResponse = OpReturnType<paths['/extension/save-bookmark']['post']>;
+type SaveImageRequestData = OpArgType<paths['/extension/save-image']['post']>;
+type SaveImageResponse = OpReturnType<paths['/extension/save-image']['post']>;
+type SaveTextRequestData = OpArgType<paths['/extension/save-text']['post']>;
+type SaveTextResponse = OpReturnType<paths['/extension/save-text']['post']>;
+type SaveVideoRequestData = OpArgType<paths['/extension/save-video']['post']>;
+type SaveVideoResponse = OpReturnType<paths['/extension/save-video']['post']>;
+type GetTagsResponse = OpReturnType<paths['/extension/tags']['get']>;
 
 /**
  * Service for extension operations
@@ -43,7 +43,9 @@ export class ExtensionService extends BaseService {
    * @returns Promise with AI suggestions data
    */
   async getAISuggestions(contentId: string): Promise<GetAISuggestionsResponse> {
-    return this.get<'/extension/ai-suggestions/{contentId}'>(`/extension/ai-suggestions/${contentId}` as '/extension/ai-suggestions/{contentId}');
+    return this.get<'/extension/ai-suggestions/{contentId}'>(
+      `/extension/ai-suggestions/${contentId}` as '/extension/ai-suggestions/{contentId}',
+    );
   }
 
   /**
@@ -61,7 +63,9 @@ export class ExtensionService extends BaseService {
    * @returns Promise with media job status
    */
   async getMediaJobStatus(jobId: string): Promise<GetMediaJobResponse> {
-    return this.get<'/extension/media-job/{jobId}'>(`/extension/media-job/${jobId}` as '/extension/media-job/{jobId}');
+    return this.get<'/extension/media-job/{jobId}'>(
+      `/extension/media-job/${jobId}` as '/extension/media-job/{jobId}',
+    );
   }
 
   /**
@@ -114,7 +118,11 @@ export class ExtensionService extends BaseService {
    * @param options Options for retrieving tags (recent, popular, limit)
    * @returns Promise with tags data
    */
-  async getTags(options?: { recent?: boolean; popular?: boolean; limit?: number }): Promise<GetTagsResponse> {
+  async getTags(options?: {
+    recent?: boolean;
+    popular?: boolean;
+    limit?: number;
+  }): Promise<GetTagsResponse> {
     return this.get<'/extension/tags'>('/extension/tags', options);
   }
 }

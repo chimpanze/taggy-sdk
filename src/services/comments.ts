@@ -4,13 +4,13 @@
  */
 
 import { BaseService } from './base';
-import {paths} from "../types/generated.ts";
-import {TaggyFetcher} from "../types/fetch.ts";
-import {OpReturnType} from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpReturnType } from 'openapi-typescript-fetch/types';
 
-type CheckLikeResponse = OpReturnType<paths['/comments/{id}/like']['get']>
-type LikeCommentResponse = OpReturnType<paths['/comments/{id}/like']['post']>
-type UnlikeCommentResponse = OpReturnType<paths['/comments/{id}/like']['delete']>
+type CheckLikeResponse = OpReturnType<paths['/comments/{id}/like']['get']>;
+type LikeCommentResponse = OpReturnType<paths['/comments/{id}/like']['post']>;
+type UnlikeCommentResponse = OpReturnType<paths['/comments/{id}/like']['delete']>;
 
 /**
  * Service for comment operations

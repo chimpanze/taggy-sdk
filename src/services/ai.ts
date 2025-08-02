@@ -4,18 +4,18 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type AnalyzeContentRequestData = OpArgType<paths['/ai/analyze']['post']>
-type AnalyzeContentResponse = OpReturnType<paths['/ai/analyze']['post']>
-type ListModelsResponse = OpReturnType<paths['/ai/models']['get']>
-type GetSettingsResponse = OpReturnType<paths['/ai/settings']['get']>
-type UpdateSettingsRequestData = OpArgType<paths['/ai/settings']['put']>
-type UpdateSettingsResponse = OpReturnType<paths['/ai/settings']['put']>
-type GetSuggestionsResponse = OpReturnType<paths['/ai/suggestions/{contentId}']['get']>
-type TrainModelResponse = OpReturnType<paths['/ai/train']['post']>
+type AnalyzeContentRequestData = OpArgType<paths['/ai/analyze']['post']>;
+type AnalyzeContentResponse = OpReturnType<paths['/ai/analyze']['post']>;
+type ListModelsResponse = OpReturnType<paths['/ai/models']['get']>;
+type GetSettingsResponse = OpReturnType<paths['/ai/settings']['get']>;
+type UpdateSettingsRequestData = OpArgType<paths['/ai/settings']['put']>;
+type UpdateSettingsResponse = OpReturnType<paths['/ai/settings']['put']>;
+type GetSuggestionsResponse = OpReturnType<paths['/ai/suggestions/{contentId}']['get']>;
+type TrainModelResponse = OpReturnType<paths['/ai/train']['post']>;
 
 /**
  * Service for AI operations
@@ -69,7 +69,9 @@ export class AIService extends BaseService {
    * @returns Promise with AI tag suggestions
    */
   async getSuggestions(contentId: number): Promise<GetSuggestionsResponse> {
-    return this.get<'/ai/suggestions/{contentId}'>(`/ai/suggestions/${contentId}` as '/ai/suggestions/{contentId}');
+    return this.get<'/ai/suggestions/{contentId}'>(
+      `/ai/suggestions/${contentId}` as '/ai/suggestions/{contentId}',
+    );
   }
 
   /**

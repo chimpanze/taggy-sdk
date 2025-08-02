@@ -4,15 +4,15 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpArgType, OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetArchiveResponse = OpReturnType<paths['/archive/{id}']['get']>
-type CreateArchiveRequestData = OpArgType<paths['/archive/create']['post']>
-type CreateArchiveResponse = OpReturnType<paths['/archive/create']['post']>
-type GetArchiveStatusResponse = OpReturnType<paths['/archive/status/{id}']['get']>
-type DeleteArchiveResponse = OpReturnType<paths['/archive/{id}']['delete']>
+type GetArchiveResponse = OpReturnType<paths['/archive/{id}']['get']>;
+type CreateArchiveRequestData = OpArgType<paths['/archive/create']['post']>;
+type CreateArchiveResponse = OpReturnType<paths['/archive/create']['post']>;
+type GetArchiveStatusResponse = OpReturnType<paths['/archive/status/{id}']['get']>;
+type DeleteArchiveResponse = OpReturnType<paths['/archive/{id}']['delete']>;
 
 /**
  * Service for archive operations

@@ -13,12 +13,12 @@ export interface AuthConfig {
    * API key for authentication
    */
   apiKey?: string;
-  
+
   /**
    * JWT token for authentication
    */
   token?: string;
-  
+
   /**
    * Custom function to get authentication token
    */
@@ -33,37 +33,32 @@ export interface TaggyConfig {
    * Base URL for API requests
    */
   baseUrl: string;
-  
-  /**
-   * Request timeout in milliseconds
-   */
-  timeout: number;
-  
+
   /**
    * SDK version
    */
   version: string;
-  
+
   /**
    * Authentication configuration
    */
   auth?: AuthConfig;
-  
+
   /**
    * Custom headers to include in all requests
    */
   headers?: Record<string, string>;
-  
+
   /**
    * Enable debug mode for additional logging
    */
   debug: boolean;
-  
+
   /**
    * Maximum number of retries for failed requests
    */
   maxRetries: number;
-  
+
   /**
    * Retry delay in milliseconds
    */
@@ -75,7 +70,6 @@ export interface TaggyConfig {
  */
 export const defaultConfig: TaggyConfig = {
   baseUrl: 'http://localhost:8080/api/v1',
-  timeout: 30000,
   version: VERSION,
   debug: false,
   maxRetries: 3,

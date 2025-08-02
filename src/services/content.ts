@@ -4,17 +4,17 @@
  */
 
 import { BaseService } from './base';
-import {paths} from "../types/generated.ts";
-import {TaggyFetcher} from "../types/fetch.ts";
-import {OpArgType, OpReturnType} from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetContentResponse = OpReturnType<paths['/content/{id}']['get']>
-type ListContentRequestData = OpArgType<paths['/content']['post']>
-type ListContentResponse = OpReturnType<paths['/content']['get']>
-type CreateContentRequestData = OpArgType<paths['/content']['post']>
-type CreateContentResponse = OpReturnType<paths['/content']['post']>
-type UpdateContentRequestData = OpArgType<paths['/content/{id}']['put']>
-type DeleteContentResponse = OpReturnType<paths['/content/{id}']['delete']>
+type GetContentResponse = OpReturnType<paths['/content/{id}']['get']>;
+type ListContentRequestData = OpArgType<paths['/content']['post']>;
+type ListContentResponse = OpReturnType<paths['/content']['get']>;
+type CreateContentRequestData = OpArgType<paths['/content']['post']>;
+type CreateContentResponse = OpReturnType<paths['/content']['post']>;
+type UpdateContentRequestData = OpArgType<paths['/content/{id}']['put']>;
+type DeleteContentResponse = OpReturnType<paths['/content/{id}']['delete']>;
 
 /**
  * Service for content operations

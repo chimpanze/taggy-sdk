@@ -3,8 +3,8 @@
  */
 
 import { AuthConfig } from '../config';
-import {CustomRequestInit} from "../types/fetch.ts";
-import type {ApiResponse} from "openapi-typescript-fetch";
+import { CustomRequestInit } from '../types/fetch.ts';
+import type { ApiResponse } from 'openapi-typescript-fetch';
 
 /**
  * Creates an authentication interceptor for Axios
@@ -12,7 +12,11 @@ import type {ApiResponse} from "openapi-typescript-fetch";
  * @returns Axios request interceptor function
  */
 export function createAuthInterceptor(authConfig: AuthConfig) {
-  return async (url: string, init: CustomRequestInit, next: (url: string, init: CustomRequestInit) => Promise<ApiResponse>) => {
+  return async (
+    url: string,
+    init: CustomRequestInit,
+    next: (url: string, init: CustomRequestInit) => Promise<ApiResponse>,
+  ) => {
     // Skip authentication for auth endpoints
     if (url?.startsWith('/auth/login') || url?.startsWith('/auth/register')) {
       return next(url, init);

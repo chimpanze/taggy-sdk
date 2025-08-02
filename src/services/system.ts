@@ -4,8 +4,8 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
 
 // Define response types for system endpoints
 // Since these endpoints might not be explicitly defined in the OpenAPI spec,
@@ -32,7 +32,7 @@ export class SystemService extends BaseService {
   async ready(): Promise<ReadyResponse> {
     try {
       // Using any as a workaround since the endpoint might not be in the OpenAPI spec
-      return await this.get<any>('/ready' as any) as Promise<ReadyResponse>;
+      return (await this.get<any>('/ready' as any)) as Promise<ReadyResponse>;
     } catch (error) {
       // Handle potential errors gracefully
       console.error('Error checking readiness:', error);
@@ -47,11 +47,13 @@ export class SystemService extends BaseService {
   async health(): Promise<HealthResponse> {
     try {
       // Using any as a workaround since the endpoint might not be in the OpenAPI spec
-      return await this.get<any>('/health' as any) as Promise<HealthResponse>;
+      return (await this.get<any>('/health' as any)) as Promise<HealthResponse>;
     } catch (error) {
       // Handle potential errors gracefully
       console.error('Error checking health:', error);
-      return new Promise(() => { return { status: 'error', message: 'Failed to check health' } }) as Promise<HealthResponse>;
+      return new Promise(() => {
+        return { status: 'error', message: 'Failed to check health' };
+      }) as Promise<HealthResponse>;
     }
   }
 }

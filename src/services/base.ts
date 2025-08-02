@@ -4,8 +4,8 @@
  */
 
 import { paths } from '../types/generated';
-import { TaggyFetcher } from "../types/fetch.ts";
-import {OpArgType, OpReturnType} from "openapi-typescript-fetch/types";
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
 /**
  * Base service class that all service implementations extend from
@@ -30,13 +30,7 @@ export abstract class BaseService {
    * @param path API path
    * @returns Fetch operation
    */
-  protected createOperation<
-      P extends keyof paths,
-      M extends keyof paths[P]
-  >(
-      method: M,
-      path: P
-  ) {
+  protected createOperation<P extends keyof paths, M extends keyof paths[P]>(method: M, path: P) {
     return this.fetcher.path(path).method(method).create();
   }
 
@@ -48,14 +42,14 @@ export abstract class BaseService {
    */
   protected async get<P extends keyof paths>(
     path: P,
-    params?: Record<string, any>
-  ): Promise<OpReturnType<paths[P]["get"]>> {
+    params?: Record<string, any>,
+  ): Promise<OpReturnType<paths[P]['get']>> {
     const operation = this.createOperation('get', path);
     if (params === undefined) {
       params = {};
     }
-    const response = await operation({ query: params } as OpArgType<paths[P]["get"]>);
-    return response.data as OpReturnType<paths[P]["get"]>;
+    const response = await operation({ query: params } as OpArgType<paths[P]['get']>);
+    return response.data as OpReturnType<paths[P]['get']>;
   }
 
   /**
@@ -68,11 +62,11 @@ export abstract class BaseService {
   protected async post<P extends keyof paths>(
     path: P,
     data?: Record<string, any>,
-    params?: Record<string, any>
-  ): Promise<OpReturnType<paths[P]["post"]>> {
+    params?: Record<string, any>,
+  ): Promise<OpReturnType<paths[P]['post']>> {
     const operation = this.createOperation('post', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]["post"]>);
-    return response.data as OpReturnType<paths[P]["post"]>;
+    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['post']>);
+    return response.data as OpReturnType<paths[P]['post']>;
   }
 
   /**
@@ -85,11 +79,11 @@ export abstract class BaseService {
   protected async put<P extends keyof paths>(
     path: P,
     data?: Record<string, any>,
-    params?: Record<string, any>
-  ): Promise<OpReturnType<paths[P]["put"]>> {
+    params?: Record<string, any>,
+  ): Promise<OpReturnType<paths[P]['put']>> {
     const operation = this.createOperation('put', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]["put"]>);
-    return response.data as OpReturnType<paths[P]["put"]>;
+    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['put']>);
+    return response.data as OpReturnType<paths[P]['put']>;
   }
 
   /**
@@ -102,11 +96,11 @@ export abstract class BaseService {
   protected async patch<P extends keyof paths>(
     path: P,
     data?: Record<string, any>,
-    params?: Record<string, any>
-  ): Promise<OpReturnType<paths[P]["patch"]>> {
+    params?: Record<string, any>,
+  ): Promise<OpReturnType<paths[P]['patch']>> {
     const operation = this.createOperation('patch', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]["patch"]>);
-    return response.data as OpReturnType<paths[P]["patch"]>;
+    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['patch']>);
+    return response.data as OpReturnType<paths[P]['patch']>;
   }
 
   /**
@@ -117,10 +111,10 @@ export abstract class BaseService {
    */
   protected async delete<P extends keyof paths>(
     path: P,
-    params?: Record<string, any>
-  ): Promise<OpReturnType<paths[P]["delete"]>> {
+    params?: Record<string, any>,
+  ): Promise<OpReturnType<paths[P]['delete']>> {
     const operation = this.createOperation('delete', path);
-    const response = await operation({ query: params } as OpArgType<paths[P]["delete"]>);
-    return response.data as OpReturnType<paths[P]["delete"]>;
+    const response = await operation({ query: params } as OpArgType<paths[P]['delete']>);
+    return response.data as OpReturnType<paths[P]['delete']>;
   }
 }

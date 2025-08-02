@@ -4,20 +4,20 @@
  */
 
 import { BaseService } from './base';
-import {paths} from "../types/generated.ts";
-import {TaggyFetcher} from "../types/fetch.ts";
-import {OpArgType, OpReturnType} from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetCollectionResponse = OpReturnType<paths['/collections/{id}']['get']>
-type ListCollectionsRequestData = OpArgType<paths['/collections']['get']>
-type ListCollectionsResponse = OpReturnType<paths['/collections']['get']>
-type CreateCollectionRequestData = OpArgType<paths['/collections']['post']>
-type CreateCollectionResponse = OpReturnType<paths['/collections']['post']>
-type UpdateCollectionRequestData = OpArgType<paths['/collections/{id}']['put']>
-type DeleteCollectionResponse = OpReturnType<paths['/collections/{id}']['delete']>
-type AddItemsRequestData = OpArgType<paths['/collections/{id}/items']['post']>
-type AddItemsResponse = OpReturnType<paths['/collections/{id}/items']['post']>
-type RemoveItemResponse = OpReturnType<paths['/collections/{id}/items/{itemId}']['delete']>
+type GetCollectionResponse = OpReturnType<paths['/collections/{id}']['get']>;
+type ListCollectionsRequestData = OpArgType<paths['/collections']['get']>;
+type ListCollectionsResponse = OpReturnType<paths['/collections']['get']>;
+type CreateCollectionRequestData = OpArgType<paths['/collections']['post']>;
+type CreateCollectionResponse = OpReturnType<paths['/collections']['post']>;
+type UpdateCollectionRequestData = OpArgType<paths['/collections/{id}']['put']>;
+type DeleteCollectionResponse = OpReturnType<paths['/collections/{id}']['delete']>;
+type AddItemsRequestData = OpArgType<paths['/collections/{id}/items']['post']>;
+type AddItemsResponse = OpReturnType<paths['/collections/{id}/items']['post']>;
+type RemoveItemResponse = OpReturnType<paths['/collections/{id}/items/{itemId}']['delete']>;
 
 /**
  * Service for collections operations
@@ -84,7 +84,10 @@ export class CollectionsService extends BaseService {
    * @returns Promise that resolves when items are added
    */
   async addItems(id: number, data: AddItemsRequestData): Promise<AddItemsResponse> {
-    return this.post<'/collections/{id}/items'>(`/collections/${id}/items` as '/collections/{id}/items', data);
+    return this.post<'/collections/{id}/items'>(
+      `/collections/${id}/items` as '/collections/{id}/items',
+      data,
+    );
   }
 
   /**
@@ -94,6 +97,8 @@ export class CollectionsService extends BaseService {
    * @returns Promise that resolves when item is removed
    */
   async removeItem(collectionId: number, itemId: number): Promise<RemoveItemResponse> {
-    return this.delete<'/collections/{id}/items/{itemId}'>(`/collections/${collectionId}/items/${itemId}` as '/collections/{id}/items/{itemId}');
+    return this.delete<'/collections/{id}/items/{itemId}'>(
+      `/collections/${collectionId}/items/${itemId}` as '/collections/{id}/items/{itemId}',
+    );
   }
 }

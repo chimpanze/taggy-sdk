@@ -4,14 +4,14 @@
  */
 
 import { BaseService } from './base';
-import { paths } from "../types/generated.ts";
-import { TaggyFetcher } from "../types/fetch.ts";
-import { OpReturnType } from "openapi-typescript-fetch/types";
+import { paths } from '../types/generated.ts';
+import { TaggyFetcher } from '../types/fetch.ts';
+import { OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetLikedCollectionsResponse = OpReturnType<paths['/likes/collections']['get']>
-type CheckLikeResponse = OpReturnType<paths['/likes/collections/{id}/like']['get']>
-type LikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['post']>
-type UnlikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['delete']>
+type GetLikedCollectionsResponse = OpReturnType<paths['/likes/collections']['get']>;
+type CheckLikeResponse = OpReturnType<paths['/likes/collections/{id}/like']['get']>;
+type LikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['post']>;
+type UnlikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['delete']>;
 
 /**
  * Service for likes operations
@@ -41,7 +41,9 @@ export class LikesService extends BaseService {
    * @returns Promise with like status data
    */
   async checkLike(id: number): Promise<CheckLikeResponse> {
-    return this.get<'/likes/collections/{id}/like'>(`/likes/collections/${id}/like` as '/likes/collections/{id}/like');
+    return this.get<'/likes/collections/{id}/like'>(
+      `/likes/collections/${id}/like` as '/likes/collections/{id}/like',
+    );
   }
 
   /**
@@ -50,7 +52,9 @@ export class LikesService extends BaseService {
    * @returns Promise with like operation result
    */
   async likeCollection(id: number): Promise<LikeCollectionResponse> {
-    return this.post<'/likes/collections/{id}/like'>(`/likes/collections/${id}/like` as '/likes/collections/{id}/like');
+    return this.post<'/likes/collections/{id}/like'>(
+      `/likes/collections/${id}/like` as '/likes/collections/{id}/like',
+    );
   }
 
   /**
@@ -59,6 +63,8 @@ export class LikesService extends BaseService {
    * @returns Promise with unlike operation result
    */
   async unlikeCollection(id: number): Promise<UnlikeCollectionResponse> {
-    return this.delete<'/likes/collections/{id}/like'>(`/likes/collections/${id}/like` as '/likes/collections/{id}/like');
+    return this.delete<'/likes/collections/{id}/like'>(
+      `/likes/collections/${id}/like` as '/likes/collections/{id}/like',
+    );
   }
 }
