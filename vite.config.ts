@@ -29,5 +29,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    exclude: ["/examples", "/node_modules", "/tests", "/dist", "/coverage"],
+    include: ["tests/**/*.test.ts"],
+    coverage: {
+      include: ["src/**/*.ts"],
+    }
   },
 });
