@@ -1,0 +1,4770 @@
+openapi: 3.0.0
+x-origin:
+  - url: http://localhost:8080/swagger/doc.yaml
+    format: swagger
+    version: "2.0"
+    converter:
+      url: https://github.com/mermade/oas-kit
+      version: 7.0.8
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: A comprehensive content organization platform that allows users to
+    save, tag, and organize various types of content from the web and other
+    sources.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Taggy API
+  version: "1.0"
+paths:
+  /api/v1/ai/analyze:
+    post:
+      description: Analyze content using AI and return tag suggestions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                content_id:
+                  type: integer
+              type: object
+        description: Content ID to analyze
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.AITagSuggestionsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Analyze content for tag suggestions
+      tags:
+        - ai
+  /api/v1/ai/models:
+    get:
+      description: Get a list of available AI models for tagging
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.AIModelResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: List AI models
+      tags:
+        - ai
+  /api/v1/ai/settings:
+    get:
+      description: Get user's AI tagging preferences and configuration
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.AITaggingSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get AI settings
+      tags:
+        - ai
+    put:
+      description: Update user's AI tagging preferences and configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.UpdateAISettingsRequest"
+        description: AI settings to update
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.AITaggingSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update AI settings
+      tags:
+        - ai
+  "/api/v1/ai/suggestions/{contentId}":
+    get:
+      description: Get AI-generated tag suggestions for a specific content item
+      parameters:
+        - description: Content ID
+          in: path
+          name: contentId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.AITagSuggestionsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get AI tag suggestions
+      tags:
+        - ai
+  /api/v1/ai/train:
+    post:
+      description: Initiate training of a personalized AI model based on user's
+        tagging history
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.TrainModelResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Train AI model
+      tags:
+        - ai
+  "/archive/{id}":
+    delete:
+      description: Delete an existing archive by its ID
+      parameters:
+        - description: Archive ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete an archive
+      tags:
+        - archive
+    get:
+      description: Retrieve a specific archive by its ID
+      parameters:
+        - description: Archive ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ArchiveResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get archive by ID
+      tags:
+        - archive
+  /archive/create:
+    post:
+      description: Create an archive of a web page for the specified content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.CreateArchiveRequest"
+        description: Archive creation request
+        required: true
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ArchiveResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Create a web page archive
+      tags:
+        - archive
+  "/archive/status/{id}":
+    get:
+      description: Check the status of an archive creation process
+      parameters:
+        - description: Archive ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ArchiveResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get archive status
+      tags:
+        - archive
+  /auth/user:
+    get:
+      description: Gets the profile information of the currently authenticated user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.UserProfileResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get current user profile
+      tags:
+        - auth
+  /auth/validate:
+    post:
+      description: Validates a JWT token with Hanko authentication service and
+        creates/updates user in database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.HankoTokenRequest"
+        description: Token validation request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.HankoTokenResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      summary: Validate JWT token
+      tags:
+        - auth
+  /collections:
+    get:
+      description: Get all collections for the authenticated user with filtering and
+        sorting options
+      parameters:
+        - description: Filter by public/private status
+          in: query
+          name: is_public
+          schema:
+            type: boolean
+        - description: Filter by shared status
+          in: query
+          name: is_shared
+          schema:
+            type: boolean
+        - description: Filter by collection name
+          in: query
+          name: name
+          schema:
+            type: string
+        - description: Sort by field (name, created_at, updated_at)
+          in: query
+          name: sort_by
+          schema:
+            type: string
+        - description: Sort order (asc, desc)
+          in: query
+          name: sort_order
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.CollectionResponse"
+                type: array
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: List user collections
+      tags:
+        - collections
+    post:
+      description: Create a new collection for the authenticated user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.CreateCollectionRequest"
+        description: Collection creation request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.CollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Create a new collection
+      tags:
+        - collections
+  "/collections/{id}":
+    delete:
+      description: Delete an existing collection for the authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete a collection
+      tags:
+        - collections
+    get:
+      description: Get a specific collection by ID with its contents for the
+        authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.CollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get collection by ID
+      tags:
+        - collections
+    put:
+      description: Update an existing collection for the authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.UpdateCollectionRequest"
+        description: Collection update request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.CollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update a collection
+      tags:
+        - collections
+  "/collections/{id}/items":
+    post:
+      description: Add content items to an existing collection for the authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.AddItemsRequest"
+        description: Add items request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Add items to collection
+      tags:
+        - collections
+  "/collections/{id}/items/{itemId}":
+    delete:
+      description: Remove a content item from an existing collection for the
+        authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - description: Content Item ID
+          in: path
+          name: content_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Remove item from collection
+      tags:
+        - collections
+  "/comments/{id}/like":
+    delete:
+      description: Unlike a comment for the authenticated user
+      parameters:
+        - description: Comment ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeCollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Unlike a comment
+      tags:
+        - likes
+    get:
+      description: Check if the authenticated user has liked a comment
+      parameters:
+        - description: Comment ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Check if user has liked a comment
+      tags:
+        - likes
+    post:
+      description: Like a comment for the authenticated user
+      parameters:
+        - description: Comment ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeCollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Like a comment
+      tags:
+        - likes
+  /content:
+    get:
+      description: Get all content for the authenticated user with pagination and filtering
+      parameters:
+        - description: "Page number (default: 1)"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Page size (default: 20)"
+          in: query
+          name: page_size
+          schema:
+            type: integer
+        - description: Content type filter
+          in: query
+          name: type
+          schema:
+            type: string
+        - description: Filter by tag ID
+          in: query
+          name: tag_id
+          schema:
+            type: integer
+        - description: Filter by collection ID
+          in: query
+          name: collection_id
+          schema:
+            type: integer
+        - description: Search query
+          in: query
+          name: search
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ContentListResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: List user content
+      tags:
+        - content
+    post:
+      description: Save new content for the authenticated user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.CreateContentRequest"
+        description: Content creation request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ContentResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Save new content
+      tags:
+        - content
+  "/content/{id}":
+    delete:
+      description: Delete existing content for the authenticated user
+      parameters:
+        - description: Content ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete content
+      tags:
+        - content
+    get:
+      description: Get specific content by ID for the authenticated user
+      parameters:
+        - description: Content ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ContentResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get content by ID
+      tags:
+        - content
+    put:
+      description: Update existing content for the authenticated user
+      parameters:
+        - description: Content ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.UpdateContentRequest"
+        description: Content update request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ContentResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update content
+      tags:
+        - content
+  "/content/{id}/tags":
+    post:
+      description: Add tags to specific content for the authenticated user
+      parameters:
+        - description: Content ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.AddTagsRequest"
+        description: Add tags request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.SuccessResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Add tags to content
+      tags:
+        - content
+  "/content/{id}/tags/{tagId}":
+    delete:
+      description: Remove a specific tag from content for the authenticated user
+      parameters:
+        - description: Content ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - description: Tag ID
+          in: path
+          name: tagId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.SuccessResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Remove tag from content
+      tags:
+        - content
+  /content/bulk:
+    post:
+      description: Perform bulk operations (delete, add tags, remove tags) on multiple
+        content items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.BulkOperationRequest"
+        description: Bulk operation request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.SuccessResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Perform bulk operations on content
+      tags:
+        - content
+  "/extension/ai-suggestions/{contentId}":
+    get:
+      description: Get AI-generated tag suggestions for content from browser extension
+      parameters:
+        - description: Content ID
+          in: path
+          name: contentId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ExtensionAISuggestionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get AI tag suggestions for content
+      tags:
+        - extension
+  /extension/archive:
+    post:
+      description: Archive the current page from browser extension
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.ArchiveCurrentPageRequest"
+        description: Archive current page request
+        required: true
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ArchiveResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Archive current page (Extension)
+      tags:
+        - extension
+  "/extension/media-job/{jobId}":
+    get:
+      description: Check the progress of a media fetch job from browser extension
+      parameters:
+        - description: Job ID
+          in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Check media job progress (Extension)
+      tags:
+        - extension
+  /extension/quick-tag:
+    post:
+      description: Quickly apply tags to content from browser extension
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.QuickTagRequest"
+        description: Quick tag request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.QuickTagResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Quick tag content from extension
+      tags:
+        - extension
+  /extension/save-bookmark:
+    post:
+      description: Save a bookmark from browser extension with metadata and tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.SaveBookmarkRequest"
+        description: Save bookmark request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ExtensionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Save bookmark from extension
+      tags:
+        - extension
+  /extension/save-image:
+    post:
+      description: Save an image from browser extension with metadata and tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.SaveImageRequest"
+        description: Save image request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ExtensionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Save image from extension
+      tags:
+        - extension
+  /extension/save-text:
+    post:
+      description: Save selected text from browser extension with context and tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.SaveTextRequest"
+        description: Save text request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ExtensionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Save text selection from extension
+      tags:
+        - extension
+  /extension/save-video:
+    post:
+      description: Save a video from browser extension for downloading
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.SaveVideoRequest"
+        description: Save video request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ExtensionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Save video from extension
+      tags:
+        - extension
+  /extension/tags:
+    get:
+      description: Get user's tags for quick selection in browser extension
+      parameters:
+        - description: Get recent tags
+          in: query
+          name: recent
+          schema:
+            type: boolean
+        - description: Get popular tags
+          in: query
+          name: popular
+          schema:
+            type: boolean
+        - description: Limit number of results
+          in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.TagResponse"
+                type: array
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get user tags for extension
+      tags:
+        - extension
+  "/files/{id}":
+    delete:
+      description: Delete a file by ID for the authenticated user
+      parameters:
+        - description: File ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete a file
+      tags:
+        - files
+    get:
+      description: Download a file by ID for the authenticated user
+      parameters:
+        - description: File ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Download a file
+      tags:
+        - files
+  /files/presigned:
+    post:
+      description: Generate a presigned URL for temporary file access for the
+        authenticated user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.PresignedURLRequest"
+        description: Presigned URL request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.PresignedURLResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Generate presigned URL
+      tags:
+        - files
+  /files/upload:
+    post:
+      description: Upload a file with optional title and description for the
+        authenticated user
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: File to upload
+                  type: string
+                  format: binary
+                title:
+                  description: File title
+                  type: string
+                description:
+                  description: File description
+                  type: string
+              required:
+                - file
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.FileUploadResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Upload a file
+      tags:
+        - files
+  /health:
+    get:
+      description: Check if the API is running
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.HealthCheckResponse"
+      summary: Health check
+      tags:
+        - health
+  /likes/collections:
+    get:
+      description: Get collections liked by the authenticated user
+      parameters:
+        - description: "Limit the number of results (default: 10)"
+          in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.CollectionResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get collections liked by user
+      tags:
+        - likes
+  "/likes/collections/{id}/like":
+    delete:
+      description: Unlike a collection for the authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeCollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Unlike a collection
+      tags:
+        - likes
+    get:
+      description: Check if the authenticated user has liked a collection
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Check if user has liked a collection
+      tags:
+        - likes
+    post:
+      description: Like a collection for the authenticated user
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.LikeCollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Like a collection
+      tags:
+        - likes
+  "/media/{id}":
+    delete:
+      description: Delete a media file and its associated job
+      parameters:
+        - description: Media ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete media
+      tags:
+        - media
+  /media/fetch:
+    post:
+      description: Fetch video/audio content from various platforms and URLs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.FetchMediaRequest"
+        description: Media fetch request
+        required: true
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.MediaJobResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Fetch media from URL
+      tags:
+        - media
+  /media/fetch-audio:
+    post:
+      description: Extract and fetch audio content from video sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.FetchAudioRequest"
+        description: Audio fetch request
+        required: true
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.MediaJobResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Fetch audio from video URL
+      tags:
+        - media
+  "/media/fetch-status/{jobId}":
+    get:
+      description: Check the status of a media fetch job
+      parameters:
+        - description: Job ID
+          in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.MediaJobResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get media fetch status
+      tags:
+        - media
+  "/media/formats/{url}":
+    get:
+      description: Get available formats for a media URL before fetching
+      parameters:
+        - description: Media URL (URL-encoded)
+          in: path
+          name: url
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.MediaFormatResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get available media formats
+      tags:
+        - media
+  /media/settings:
+    get:
+      description: Get user's media fetch settings and preferences
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.MediaSettingsResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get media settings
+      tags:
+        - media
+    put:
+      description: Update user's media fetch settings and preferences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.UpdateMediaSettingsRequest"
+        description: Media settings update request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.MediaSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update media settings
+      tags:
+        - media
+  /ready:
+    get:
+      description: Check if the API and its dependencies are ready
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ReadyCheckResponse"
+        "503":
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ReadyCheckErrorResponse"
+      summary: Readiness check
+      tags:
+        - health
+  /search:
+    get:
+      description: Search through user's content with filters and pagination
+      parameters:
+        - description: Search query
+          in: query
+          name: q
+          required: true
+          schema:
+            type: string
+        - description: "Page number (default: 1)"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Items per page (default: 20, max: 100)"
+          in: query
+          name: per_page
+          schema:
+            type: integer
+        - description: Content type filter
+          in: query
+          name: type
+          schema:
+            type: string
+        - description: Tag IDs filter (comma-separated)
+          in: query
+          name: tags
+          schema:
+            type: string
+        - description: Start date filter (YYYY-MM-DD)
+          in: query
+          name: from_date
+          schema:
+            type: string
+        - description: End date filter (YYYY-MM-DD)
+          in: query
+          name: to_date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.SearchResultsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Search content
+      tags:
+        - search
+  /search/recent:
+    get:
+      description: Get recently created/updated content for the authenticated user
+      parameters:
+        - description: "Limit number of results (default: 10, max: 100)"
+          in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.SearchResultResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get recent content
+      tags:
+        - search
+  /search/suggestions:
+    get:
+      description: Get search suggestions based on query for the authenticated user
+      parameters:
+        - description: Search query for suggestions
+          in: query
+          name: q
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.SearchSuggestionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get search suggestions
+      tags:
+        - search
+  /search/trending:
+    get:
+      description: Get trending/popular content for the authenticated user
+      parameters:
+        - description: "Limit number of results (default: 10, max: 100)"
+          in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.SearchResultResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get trending content
+      tags:
+        - search
+  /sharing/collections:
+    get:
+      description: Get all collections shared by or with the authenticated user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.SharedCollectionResponse"
+                type: array
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: List shared collections
+      tags:
+        - sharing
+  "/sharing/collections/{id}/collaborate":
+    post:
+      description: Add collaborators to a shared collection with specified permissions
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.AddCollaboratorsRequest"
+        description: Add collaborators request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Add collaborators to collection
+      tags:
+        - sharing
+  "/sharing/collections/{id}/permissions":
+    put:
+      description: Update sharing permissions and settings for a shared collection
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.ShareCollectionRequest"
+        description: Update sharing permissions request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update sharing permissions
+      tags:
+        - sharing
+  "/sharing/collections/{id}/share":
+    delete:
+      description: Remove sharing settings from a collection, making it private
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Remove collection sharing
+      tags:
+        - sharing
+    post:
+      description: Share a collection with public, private, or link-only access
+      parameters:
+        - description: Collection ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.ShareCollectionRequest"
+        description: Share collection request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Share a collection
+      tags:
+        - sharing
+  /sharing/invitations:
+    get:
+      description: Get all collaboration invitations for the authenticated user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.CollaboratorResponse"
+                type: array
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get collaboration invitations
+      tags:
+        - sharing
+  "/sharing/invitations/{id}/accept":
+    post:
+      description: Accept a collaboration invitation for the authenticated user
+      parameters:
+        - description: Invitation ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Accept collaboration invitation
+      tags:
+        - sharing
+  "/sharing/invitations/{id}/decline":
+    post:
+      description: Decline a collaboration invitation for the authenticated user
+      parameters:
+        - description: Invitation ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Decline collaboration invitation
+      tags:
+        - sharing
+  "/sharing/public/{shareId}":
+    get:
+      description: Access a publicly shared collection using its share token
+      parameters:
+        - description: Share token
+          in: path
+          name: shareId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.PublicCollectionResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      summary: Access public collection
+      tags:
+        - sharing
+  "/sharing/tags/{id}/share":
+    post:
+      description: Share a tag library with other users
+      parameters:
+        - description: Tag Library ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.ShareTagLibraryRequest"
+        description: Share tag library request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Share a tag library
+      tags:
+        - sharing
+  /sharing/tags/import:
+    post:
+      description: Import tags from a shared library to the authenticated user's tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.ImportTagsRequest"
+        description: Import tags request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Import tags from a shared library
+      tags:
+        - sharing
+  /sharing/tags/public:
+    get:
+      description: Get a list of publicly shared tag libraries
+      parameters:
+        - description: Limit number of results (default 20, max 100)
+          in: query
+          name: limit
+          schema:
+            type: integer
+        - description: Offset for pagination (default 0)
+          in: query
+          name: offset
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.TagLibraryResponse"
+                type: array
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      summary: Browse public tag libraries
+      tags:
+        - sharing
+  /tags:
+    get:
+      description: Get all tags for the authenticated user with optional filtering
+      parameters:
+        - description: Include tags with content
+          in: query
+          name: with_content
+          schema:
+            type: boolean
+        - description: Get popular tags
+          in: query
+          name: popular
+          schema:
+            type: boolean
+        - description: Get recent tags
+          in: query
+          name: recent
+          schema:
+            type: boolean
+        - description: Limit number of results
+          in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.TagResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: List user tags
+      tags:
+        - tags
+    post:
+      description: Create a new tag for the authenticated user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.CreateTagRequest"
+        description: Tag creation request
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.TagResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Create a new tag
+      tags:
+        - tags
+  "/tags/{id}":
+    delete:
+      description: Delete an existing tag for the authenticated user
+      parameters:
+        - description: Tag ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Delete a tag
+      tags:
+        - tags
+    put:
+      description: Update an existing tag for the authenticated user
+      parameters:
+        - description: Tag ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/handlers.UpdateTagRequest"
+        description: Tag update request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handlers.TagResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Update a tag
+      tags:
+        - tags
+  /tags/suggestions:
+    get:
+      description: Get tag suggestions based on query for the authenticated user
+      parameters:
+        - description: Search query for tag suggestions
+          in: query
+          name: q
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/handlers.TagResponse"
+                type: array
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: Get tag suggestions
+      tags:
+        - tags
+components:
+  securitySchemes:
+    BearerAuth:
+      description: Type "Bearer" followed by a space and JWT token.
+      in: header
+      name: Authorization
+      type: apiKey
+  schemas:
+    handlers.AIModelResponse:
+      properties:
+        models:
+          items:
+            type: string
+          type: array
+      type: object
+    handlers.AITagSuggestionResponse:
+      properties:
+        confidence:
+          type: number
+        reason:
+          type: string
+        tag_name:
+          type: string
+      type: object
+    handlers.AITagSuggestionsResponse:
+      properties:
+        content_id:
+          type: integer
+        suggestions:
+          items:
+            $ref: "#/components/schemas/handlers.AITagSuggestionResponse"
+          type: array
+      type: object
+    handlers.AITaggingSettingsResponse:
+      properties:
+        analyze_images:
+          type: boolean
+        analyze_text:
+          type: boolean
+        analyze_webpages:
+          type: boolean
+        auto_tagging_enabled:
+          type: boolean
+        confidence_threshold:
+          type: number
+        created_at:
+          type: string
+        custom_prompt:
+          type: string
+        enabled:
+          type: boolean
+        excluded_domains:
+          type: string
+        id:
+          type: integer
+        max_tags_per_content:
+          type: integer
+        preferred_languages:
+          type: string
+        provider:
+          type: string
+        updated_at:
+          type: string
+        use_custom_model:
+          type: boolean
+        user_id:
+          type: string
+      type: object
+    handlers.AddCollaboratorsRequest:
+      properties:
+        collaborators:
+          items:
+            $ref: "#/components/schemas/handlers.CollaboratorRequest"
+          minItems: 1
+          type: array
+      required:
+        - collaborators
+      type: object
+    handlers.AddItemsRequest:
+      properties:
+        content_ids:
+          items:
+            type: integer
+          type: array
+      required:
+        - content_ids
+      type: object
+    handlers.AddTagsRequest:
+      properties:
+        tag_ids:
+          items:
+            type: integer
+          type: array
+      required:
+        - tag_ids
+      type: object
+    handlers.ArchiveCurrentPageRequest:
+      properties:
+        content_id:
+          type: integer
+        format:
+          type: string
+        url:
+          type: string
+      required:
+        - content_id
+        - url
+      type: object
+    handlers.ArchiveResponse:
+      properties:
+        archive_url:
+          type: string
+        completed_at:
+          type: string
+        content_id:
+          type: integer
+        created_at:
+          type: string
+        error:
+          type: string
+        file_size:
+          type: integer
+        format:
+          type: string
+        id:
+          type: integer
+        status:
+          type: string
+        url:
+          type: string
+      type: object
+    handlers.BulkOperationRequest:
+      properties:
+        content_ids:
+          items:
+            type: integer
+          type: array
+        operation:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+      required:
+        - content_ids
+        - operation
+      type: object
+    handlers.CollaboratorRequest:
+      properties:
+        email:
+          type: string
+        permission:
+          enum:
+            - viewer
+            - contributor
+            - editor
+            - admin
+          type: string
+        user_id:
+          type: string
+      required:
+        - permission
+      type: object
+    handlers.CollaboratorResponse:
+      properties:
+        email:
+          type: string
+        id:
+          type: integer
+        invited_at:
+          type: string
+        joined_at:
+          type: string
+        permission:
+          type: string
+        status:
+          type: string
+        user_id:
+          type: string
+      type: object
+    handlers.CollectionResponse:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        has_liked:
+          type: boolean
+        id:
+          type: integer
+        is_public:
+          type: boolean
+        is_shared:
+          type: boolean
+        item_count:
+          type: integer
+        like_count:
+          type: integer
+        name:
+          type: string
+        updated_at:
+          type: string
+        user_id:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    handlers.ContentListResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/handlers.ContentResponse"
+          type: array
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        total_pages:
+          type: integer
+      type: object
+    handlers.ContentResponse:
+      properties:
+        content:
+          type: string
+        created_at:
+          type: string
+        description:
+          type: string
+        file_url:
+          type: string
+        id:
+          type: integer
+        tags:
+          items:
+            $ref: "#/components/schemas/handlers.TagResponse"
+          type: array
+        thumbnail_url:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+        url:
+          type: string
+      type: object
+    handlers.CreateArchiveRequest:
+      properties:
+        content_id:
+          type: integer
+        format:
+          type: string
+        url:
+          type: string
+      required:
+        - content_id
+        - url
+      type: object
+    handlers.CreateCollectionRequest:
+      properties:
+        description:
+          type: string
+        is_public:
+          type: boolean
+        name:
+          type: string
+      required:
+        - name
+      type: object
+    handlers.CreateContentRequest:
+      properties:
+        content:
+          type: string
+        description:
+          type: string
+        file_url:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+        thumbnail_url:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        url:
+          type: string
+      required:
+        - title
+        - type
+      type: object
+    handlers.CreateTagRequest:
+      properties:
+        color:
+          type: string
+        icon:
+          type: string
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+        parent_id:
+          type: integer
+      required:
+        - name
+      type: object
+    handlers.ExtensionAISuggestionResponse:
+      properties:
+        id:
+          type: integer
+        job_id:
+          description: For async operations like video fetching
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+        suggestions:
+          items:
+            $ref: "#/components/schemas/handlers.AITagSuggestionResponse"
+          type: array
+      type: object
+    handlers.ExtensionResponse:
+      properties:
+        id:
+          type: integer
+        job_id:
+          description: For async operations like video fetching
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+      type: object
+    handlers.FetchAudioRequest:
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - url
+      type: object
+    handlers.FetchMediaRequest:
+      properties:
+        audio_only:
+          type: boolean
+        description:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - url
+      type: object
+    handlers.FileUploadResponse:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        file_size:
+          type: integer
+        file_url:
+          type: string
+        id:
+          type: integer
+        mime_type:
+          type: string
+        thumbnail_url:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+      type: object
+    handlers.HankoTokenRequest:
+      properties:
+        audience:
+          type: string
+        jwt:
+          type: string
+      type: object
+    handlers.HankoTokenResponse:
+      properties:
+        is_valid:
+          type: boolean
+      type: object
+    handlers.HealthCheckResponse:
+      properties:
+        status:
+          type: string
+        time:
+          type: string
+      type: object
+    handlers.ImportTagsRequest:
+      properties:
+        library_id:
+          type: integer
+      required:
+        - library_id
+      type: object
+    handlers.LikeCollectionResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    handlers.LikeResponse:
+      properties:
+        liked:
+          type: boolean
+      type: object
+    handlers.MediaFormatResponse:
+      properties:
+        audio_only:
+          type: boolean
+        codec:
+          type: string
+        extension:
+          type: string
+        file_size:
+          type: integer
+        format_id:
+          type: string
+        quality:
+          type: string
+        resolution:
+          type: string
+      type: object
+    handlers.MediaJobResponse:
+      properties:
+        audio_only:
+          type: boolean
+        completed_at:
+          type: string
+        content_id:
+          type: integer
+        created_at:
+          type: string
+        description:
+          type: string
+        duration:
+          type: integer
+        error:
+          type: string
+        file_path:
+          type: string
+        file_size:
+          type: integer
+        format:
+          type: string
+        id:
+          type: integer
+        original_url:
+          type: string
+        progress:
+          type: number
+        started_at:
+          type: string
+        status:
+          type: string
+        thumbnail:
+          type: string
+        thumbnail_path:
+          type: string
+        title:
+          type: string
+        upload_date:
+          type: string
+        uploader:
+          type: string
+        url:
+          type: string
+        user_id:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    handlers.MediaSettingsResponse:
+      properties:
+        allowed_domains:
+          type: string
+        audio_format:
+          type: string
+        audio_quality:
+          type: string
+        auto_extract_audio:
+          type: boolean
+        blocked_domains:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: integer
+        max_file_size:
+          type: integer
+        preferred_format:
+          type: string
+        preferred_quality:
+          type: string
+        save_subtitles:
+          type: boolean
+        save_thumbnails:
+          type: boolean
+        updated_at:
+          type: string
+        user_id:
+          type: string
+      type: object
+    handlers.PresignedURLRequest:
+      properties:
+        expiry:
+          description: in seconds
+          type: integer
+        file_id:
+          type: integer
+      type: object
+    handlers.PresignedURLResponse:
+      properties:
+        url:
+          type: string
+      type: object
+    handlers.PublicCollectionResponse:
+      properties:
+        content_count:
+          type: integer
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        like_count:
+          type: integer
+        name:
+          type: string
+        share_settings:
+          $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        updated_at:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    handlers.QuickTagRequest:
+      properties:
+        content_id:
+          type: integer
+        tag_ids:
+          items:
+            type: integer
+          type: array
+      required:
+        - content_id
+        - tag_ids
+      type: object
+    handlers.QuickTagResponse:
+      properties:
+        id:
+          type: integer
+        job_id:
+          description: For async operations like video fetching
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+        tags:
+          items:
+            $ref: "#/components/schemas/handlers.TagResponse"
+          type: array
+      type: object
+    handlers.ReadyCheckErrorResponse:
+      properties:
+        database:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+      type: object
+    handlers.ReadyCheckResponse:
+      properties:
+        database:
+          type: string
+        status:
+          type: string
+      type: object
+    handlers.SaveBookmarkRequest:
+      properties:
+        archive:
+          type: boolean
+        description:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - title
+        - url
+      type: object
+    handlers.SaveImageRequest:
+      properties:
+        description:
+          type: string
+        file_url:
+          type: string
+        source:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+        thumbnail_url:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - url
+      type: object
+    handlers.SaveTextRequest:
+      properties:
+        content:
+          type: string
+        context:
+          type: string
+        source:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+        title:
+          type: string
+      required:
+        - content
+        - source
+        - title
+      type: object
+    handlers.SaveVideoRequest:
+      properties:
+        audio_only:
+          type: boolean
+        description:
+          type: string
+        tag_ids:
+          items:
+            type: integer
+          type: array
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - url
+      type: object
+    handlers.SearchResultResponse:
+      properties:
+        content_type:
+          type: string
+        created_at:
+          type: string
+        description:
+          type: string
+        highlights:
+          additionalProperties:
+            type: string
+          type: object
+        id:
+          type: integer
+        tags:
+          items:
+            $ref: "#/components/schemas/handlers.TagResponse"
+          type: array
+        title:
+          type: string
+        updated_at:
+          type: string
+        url:
+          type: string
+      type: object
+    handlers.SearchResultsResponse:
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        results:
+          items:
+            $ref: "#/components/schemas/handlers.SearchResultResponse"
+          type: array
+        total:
+          type: integer
+      type: object
+    handlers.SearchSuggestionResponse:
+      properties:
+        suggestions:
+          items:
+            type: string
+          type: array
+      type: object
+    handlers.ShareCollectionRequest:
+      properties:
+        allow_comments:
+          type: boolean
+        allow_download:
+          type: boolean
+        allow_fork:
+          type: boolean
+        expires_at:
+          type: string
+        share_type:
+          enum:
+            - public
+            - private
+            - link-only
+          type: string
+      required:
+        - share_type
+      type: object
+    handlers.ShareSettingsResponse:
+      properties:
+        allow_comments:
+          type: boolean
+        allow_download:
+          type: boolean
+        allow_fork:
+          type: boolean
+        created_at:
+          type: string
+        expires_at:
+          type: string
+        id:
+          type: integer
+        is_active:
+          type: boolean
+        share_token:
+          type: string
+        share_type:
+          type: string
+        updated_at:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    handlers.ShareTagLibraryRequest:
+      properties:
+        share_type:
+          enum:
+            - public
+            - private
+          type: string
+      required:
+        - share_type
+      type: object
+    handlers.SharedCollectionResponse:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        is_public:
+          type: boolean
+        is_shared:
+          type: boolean
+        like_count:
+          type: integer
+        name:
+          type: string
+        share_settings:
+          $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        updated_at:
+          type: string
+        view_count:
+          type: integer
+      type: object
+    handlers.SuccessResponse:
+      properties:
+        status:
+          type: string
+      type: object
+    handlers.TagLibraryResponse:
+      properties:
+        category:
+          type: string
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        is_public:
+          type: boolean
+        name:
+          type: string
+        rating:
+          type: number
+        share_settings:
+          $ref: "#/components/schemas/handlers.ShareSettingsResponse"
+        tag_count:
+          type: integer
+        updated_at:
+          type: string
+        use_count:
+          type: integer
+      type: object
+    handlers.TagResponse:
+      properties:
+        color:
+          type: string
+        icon:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parent_id:
+          type: integer
+      type: object
+    handlers.TrainModelResponse:
+      properties:
+        message:
+          type: string
+        status:
+          type: string
+      type: object
+    handlers.UpdateAISettingsRequest:
+      properties:
+        analyze_images:
+          type: boolean
+        analyze_text:
+          type: boolean
+        analyze_webpages:
+          type: boolean
+        auto_tagging_enabled:
+          type: boolean
+        confidence_threshold:
+          type: number
+        custom_prompt:
+          type: string
+        enabled:
+          type: boolean
+        excluded_domains:
+          type: string
+        max_tags_per_content:
+          type: integer
+        preferred_languages:
+          type: string
+        provider:
+          type: string
+        use_custom_model:
+          type: boolean
+      type: object
+    handlers.UpdateCollectionRequest:
+      properties:
+        description:
+          type: string
+        is_public:
+          type: boolean
+        name:
+          type: string
+      required:
+        - name
+      type: object
+    handlers.UpdateContentRequest:
+      properties:
+        content:
+          type: string
+        description:
+          type: string
+        file_url:
+          type: string
+        thumbnail_url:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+      required:
+        - title
+      type: object
+    handlers.UpdateMediaSettingsRequest:
+      properties:
+        allowed_domains:
+          type: string
+        audio_format:
+          type: string
+        audio_quality:
+          type: string
+        auto_extract_audio:
+          type: boolean
+        blocked_domains:
+          type: string
+        max_file_size:
+          type: integer
+        preferred_format:
+          type: string
+        preferred_quality:
+          type: string
+        save_subtitles:
+          type: boolean
+        save_thumbnails:
+          type: boolean
+      type: object
+    handlers.UpdateTagRequest:
+      properties:
+        color:
+          type: string
+        icon:
+          type: string
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+        parent_id:
+          type: integer
+      required:
+        - name
+      type: object
+    handlers.UserProfileResponse:
+      properties:
+        created_at:
+          type: string
+        email:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        last_login_at:
+          type: string
+        name:
+          type: string
+        profile_pic_url:
+          type: string
+        role:
+          type: string
+        updated_at:
+          type: string
+      type: object

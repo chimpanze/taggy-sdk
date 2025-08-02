@@ -1,0 +1,121 @@
+/**
+ * Taggy SDK Client
+ * Main client class for interacting with the Taggy API
+ */
+
+import { Fetcher, ApiResponse } from 'openapi-typescript-fetch';
+import { paths } from './types/generated';
+import { TaggyConfig, defaultConfig, AuthConfig } from './config';
+import { createErrorHandler } from './interceptors/error';
+import { AuthService } from './services/auth';
+import { ContentService } from './services/content';
+import { TagService } from './services/tag';
+import {CustomRequestInit, TaggyFetcher} from "./types/fetch.ts";
+
+/**
+ * Main SDK client class
+ */
+export class TaggyClient {
+  private readonly config: TaggyConfig;
+  private readonly fetcher: TaggyFetcher<paths>;
+  
+  /**
+   * Service instances
+   */
+  readonly auth: AuthService;
+  readonly content: ContentService;
+  readonly tags: TagService;
+
+  /**
+   * Creates a new TaggyClient instance
+   * @param config Configuration options
+   */
+  constructor(config: Partial<TaggyConfig> = {}) {
+    this.config = { ...defaultConfig, ...config };
+    
+    // Create fetcher instance
+    // @ts-ignore
+    this.fetcher = Fetcher.for<paths>();
+    
+    // Configure the fetcher
+    this.fetcher.configure({
+      baseUrl: this.config.baseUrl,
+      init: {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'User-Agent': `TaggySDK/${this.config.version}`,
+          ...this.config.headers,
+        },
+      },
+    });
+    
+    // Add error handler
+    this.fetcher.use(createErrorHandler());
+    
+    // Add auth middleware if auth config is provided
+    if (this.config.auth) {
+      this.fetcher.use(this.createAuthMiddleware(this.config.auth));
+    }
+    
+    // Initialize services
+    this.auth = new AuthService(this.fetcher);
+    this.content = new ContentService(this.fetcher);
+    this.tags = new TagService(this.fetcher);
+  }
+  
+  /**
+   * Creates an authentication middleware for the fetcher
+   * @param authConfig Authentication configuration
+   * @returns Middleware function for the fetcher
+   */
+  private createAuthMiddleware(authConfig: AuthConfig) {
+    return async (url: string, init: CustomRequestInit, next: (url: string, init: CustomRequestInit) => Promise<ApiResponse>) => {
+      // Skip authentication for auth endpoints
+      if (url.startsWith('/api/v1/auth/login') || url.startsWith('/api/v1/auth/register')) {
+        return next(url, init);
+      }
+      
+      // Create a new headers object
+      const headers = new Headers(init.headers);
+      
+      // Use custom token provider if available
+      if (authConfig.getToken) {
+        const token = await authConfig.getToken();
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      // Use API key if available
+      else if (authConfig.apiKey) {
+        headers.set('X-API-Key', authConfig.apiKey);
+      }
+      // Use JWT token if available
+      else if (authConfig.token) {
+        headers.set('Authorization', `Bearer ${authConfig.token}`);
+      }
+      
+      // Create a completely new init object with the updated headers
+      const newInit: CustomRequestInit = {
+        ...init,
+        headers: headers
+      };
+      
+      return next(url, newInit);
+    };
+  }
+  
+  /**
+   * Gets the current configuration
+   * @returns Current configuration
+   */
+  getConfig(): TaggyConfig {
+    return { ...this.config };
+  }
+  
+  /**
+   * Gets the fetcher instance
+   * @returns The fetcher instance
+   */
+  getFetcher(): TaggyFetcher<paths> {
+    return this.fetcher;
+  }
+}
