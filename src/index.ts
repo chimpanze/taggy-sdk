@@ -40,4 +40,4 @@ export {
 export * from './utils/helpers';
 
 // Version information
-export const VERSION = '1.0.0';
+export const VERSION = '0.0.3';

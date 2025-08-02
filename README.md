@@ -267,7 +267,7 @@ Check out the [examples](./examples) directory for more usage examples.
 
 ## API Documentation
 
-For detailed API documentation, see the [API docs](./docs/index.html).
+For detailed API documentation, see the [API docs](https://chimpanze.github.io/taggy-sdk/). The documentation is automatically generated from the source code and deployed to GitHub Pages whenever changes are pushed to the main branch or a new version is tagged.
 
 ## Contributing
 

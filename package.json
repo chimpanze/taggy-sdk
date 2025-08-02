@@ -1,6 +1,6 @@
 {
   "name": "@chimpanze/taggy-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "TypeScript SDK for Taggy API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
