@@ -2,6 +2,7 @@
  * Taggy SDK - A TypeScript SDK for the Taggy API
  * @module TaggySDK
  */
+export const VERSION = '0.0.3';
 
 // Export main client
 export { TaggyClient } from './client';
@@ -38,6 +39,3 @@ export {
 
 // Export utility functions
 export * from './utils/helpers';
-
-// Version information
-export const VERSION = '0.0.3';
