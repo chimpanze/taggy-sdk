@@ -2,8 +2,9 @@
  * Taggy SDK Configuration
  * Configuration types and defaults for the SDK
  */
+import packageJson from '../package.json';
+const version = packageJson.version;
 
-import { VERSION } from './index';
 
 /**
  * Authentication configuration
@@ -70,7 +71,7 @@ export interface TaggyConfig {
  */
 export const defaultConfig: TaggyConfig = {
   baseUrl: 'http://localhost:8080/api/v1',
-  version: VERSION,
+  version: version,
   debug: false,
   maxRetries: 3,
   retryDelay: 1000,
