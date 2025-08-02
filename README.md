@@ -131,26 +131,6 @@ const client = new TaggyClient({
 
 The Taggy SDK provides the following services:
 
-### Authentication Service
-
-```typescript
-// Login with email and password
-const loginResult = await client.auth.login({
-  email: 'user@example.com',
-  password: 'password123'
-});
-
-// Register a new user
-const registerResult = await client.auth.register({
-  email: 'newuser@example.com',
-  password: 'password123',
-  name: 'New User'
-});
-
-// Logout
-await client.auth.logout();
-```
-
 ### Content Service
 
 ```typescript
