@@ -1,22 +1,17 @@
 name: Build and Publish
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
   pull_request:
+    types: [closed]
     branches:
       - main
-  release:
-    types: [created]
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages and package publishing
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  packages: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -25,11 +20,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # Only run if the PR was merged (not just closed)
+  check-pr-merged:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: PR was merged
+        run: echo "PR was merged, proceeding with build and publish"
+    
+  build:
+    needs: check-pr-merged
+    runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.semantic-release.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic-release.outputs.new_release_version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -48,6 +57,23 @@ jobs:
 
       - name: Build
         run: npm run build
+        
+      - name: Setup Git User
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+      - name: Semantic Release
+        id: semantic-release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          semantic_version: 19
+          branches: |
+            [
+              'main'
+            ]
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -57,14 +83,13 @@ jobs:
 
   publish:
     needs: build
-    if: github.event_name == 'release' && github.event.action == 'created'
+    if: needs.build.outputs.new_release_published == 'true'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -90,7 +115,8 @@ jobs:
           
   docs:
     needs: build
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    # Always run docs when a PR is merged to main, regardless of whether a new version was published
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -98,6 +124,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main
         
       - name: Setup Node.js
         uses: actions/setup-node@v4

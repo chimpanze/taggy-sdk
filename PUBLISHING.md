@@ -1,12 +1,45 @@
 # Publishing Guide for Taggy SDK
 
-This document explains how to publish new versions of the Taggy SDK to GitHub Packages using the GitHub Actions workflow.
+This document explains how the Taggy SDK is automatically published to GitHub Packages using semantic versioning and GitHub Actions.
 
-## Prerequisites
+## Automated Publishing Process
 
-Before you can publish the package, you need to:
+The Taggy SDK uses semantic versioning and automated publishing through GitHub Actions. The process works as follows:
 
-1. Have write access to the GitHub repository
+1. When a pull request is merged to the `main` branch, the GitHub Actions workflow automatically:
+   - Builds the package
+   - Runs tests
+   - Determines the next version number based on commit messages
+   - Updates the version in package.json
+   - Creates a new GitHub release with release notes
+   - Publishes the package to GitHub Packages
+   - Updates the documentation on GitHub Pages
+
+## Semantic Versioning
+
+The version number is automatically determined based on the commit messages in the pull request using semantic-release:
+
+- `fix:` commits trigger a PATCH version increment (e.g., 1.0.0 → 1.0.1)
+- `feat:` commits trigger a MINOR version increment (e.g., 1.0.0 → 1.1.0)
+- `BREAKING CHANGE:` in the commit body or `feat!:` in the commit header triggers a MAJOR version increment (e.g., 1.0.0 → 2.0.0)
+
+### Commit Message Format
+
+To ensure proper versioning, follow the [Conventional Commits](https://www.conventionalcommits.org/) format for your commit messages:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Examples:
+- `fix: correct network timeout handling`
+- `feat: add support for custom headers`
+- `feat!: remove deprecated API methods`
+- `chore: update dependencies`
 
 ## Authentication for GitHub Packages
 
@@ -27,57 +60,29 @@ If you need to authenticate locally for testing, you can create a Personal Acces
    ```
    When prompted, use your GitHub username, the token as the password, and your GitHub email.
 
-## Publishing a New Version
-
-To publish a new version of the package:
-
-1. Update the version number in `package.json`:
-   ```json
-   {
-     "name": "@chimpanze/taggy-sdk",
-     "version": "1.0.1"
-   }
-   ```
-   
-   Update the version number as needed for your release.
-
-2. Create and push your changes:
-   ```bash
-   git add package.json
-   git commit -m "Bump version to 1.0.1"
-   git push origin main
-   ```
-
-3. Create a new release on GitHub:
-   - Go to your GitHub repository
-   - Click on "Releases" on the right sidebar
-   - Click "Create a new release"
-   - Tag version: `v1.0.1` (must start with 'v' followed by the version number)
-   - Release title: `v1.0.1`
-   - Description: Add release notes describing the changes
-   - Click "Publish release"
-
-4. The GitHub Actions workflow will automatically:
-   - Build the package
-   - Run tests
-   - Publish the package to GitHub Packages
-
-5. Verify the publication:
-   - Check the GitHub Actions workflow run to ensure it completed successfully
-   - Check the package on GitHub by navigating to your repository, clicking on "Packages" in the right sidebar, and selecting the package
-
 ## Troubleshooting
 
 If the publication fails, check the GitHub Actions logs for errors. Common issues include:
 
 - **Authentication failure**: Check that the workflow has access to the `GITHUB_TOKEN` (this should be automatic)
-- **Version conflict**: Ensure you're publishing a version that doesn't already exist on GitHub Packages
+- **Version conflict**: This should not happen with semantic-release, but if it does, check if the version was manually modified
 - **Build failure**: Make sure all tests pass and the build completes successfully
 - **Package.json issues**: Verify that package.json is valid and contains all required fields, including the correct scope (@chimpanze)
+- **Commit message format**: Ensure your commit messages follow the Conventional Commits format for proper versioning
 
-## Manual Publication
+## Verifying a Publication
 
-If you need to publish manually:
+After a pull request is merged:
+
+1. Check the GitHub Actions workflow run to ensure it completed successfully
+2. Verify the new version number in package.json
+3. Check the GitHub Releases page for the new release and release notes
+4. Check the package on GitHub by navigating to your repository, clicking on "Packages" in the right sidebar, and selecting the package
+5. Verify that the documentation has been updated on GitHub Pages
+
+## Manual Publication (Emergency Only)
+
+In rare cases where the automated process fails and immediate publication is required:
 
 1. Ensure you are authenticated with GitHub Packages:
    ```bash
@@ -85,14 +90,18 @@ If you need to publish manually:
    ```
    Use your GitHub username, personal access token as password, and GitHub email.
 
-2. Build the package:
+2. Update the version in package.json manually following semantic versioning principles.
+
+3. Build the package:
    ```bash
    npm run build
    ```
 
-3. Publish to GitHub Packages:
+4. Publish to GitHub Packages:
    ```bash
    npm publish
    ```
 
-Note that manual publication should be a fallback option. The GitHub Actions workflow is the preferred method for publishing new versions.
+5. Create a GitHub release manually.
+
+Note that manual publication should be used only in emergency situations. The automated GitHub Actions workflow is the standard method for publishing new versions.

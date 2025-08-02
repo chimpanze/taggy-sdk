@@ -45,6 +45,12 @@
     "zod": "^4.0.14"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.2",
+    "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/node": "^24.1.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
@@ -52,6 +58,7 @@
     "eslint": "^9.32.0",
     "openapi-typescript": "^7.8.0",
     "prettier": "^3.6.2",
+    "semantic-release": "^22.0.12",
     "terser": "^5.43.1",
     "typedoc": "^0.28.9",
     "typescript": "^5.8.3",
