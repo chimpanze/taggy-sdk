@@ -21,7 +21,7 @@ info:
   title: Taggy API
   version: "1.0"
 paths:
-  /api/v1/ai/analyze:
+  /ai/analyze:
     post:
       description: Analyze content using AI and return tag suggestions
       requestBody:
@@ -78,7 +78,7 @@ paths:
       summary: Analyze content for tag suggestions
       tags:
         - ai
-  /api/v1/ai/models:
+  /ai/models:
     get:
       description: Get a list of available AI models for tagging
       responses:
@@ -109,7 +109,7 @@ paths:
       summary: List AI models
       tags:
         - ai
-  /api/v1/ai/settings:
+  /ai/settings:
     get:
       description: Get user's AI tagging preferences and configuration
       responses:
@@ -193,7 +193,7 @@ paths:
       summary: Update AI settings
       tags:
         - ai
-  "/api/v1/ai/suggestions/{contentId}":
+  /ai/suggestions/{contentId}:
     get:
       description: Get AI-generated tag suggestions for a specific content item
       parameters:
@@ -247,7 +247,7 @@ paths:
       summary: Get AI tag suggestions
       tags:
         - ai
-  /api/v1/ai/train:
+  /ai/train:
     post:
       description: Initiate training of a personalized AI model based on user's
         tagging history
@@ -279,7 +279,7 @@ paths:
       summary: Train AI model
       tags:
         - ai
-  "/archive/{id}":
+  /archive/{id}:
     delete:
       description: Delete an existing archive by its ID
       parameters:
@@ -412,7 +412,7 @@ paths:
       summary: Create a web page archive
       tags:
         - archive
-  "/archive/status/{id}":
+  /archive/status/{id}:
     get:
       description: Check the status of an archive creation process
       parameters:
