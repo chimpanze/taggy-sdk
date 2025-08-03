@@ -37,11 +37,9 @@ function createMockApiResponse(data: any = {}): ApiResponse<any> {
   // @ts-ignore - We're mocking the ApiResponse
   return {
     data,
-    response: {
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-    },
+    ok: true,
+    status: 200,
+    statusText: 'OK',
   };
 }
 
@@ -96,7 +94,7 @@ describe('BaseService', () => {
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('get');
-      expect(mockOperation).toHaveBeenCalledWith({ query: {} });
+      expect(mockOperation).toHaveBeenCalledWith({ params: undefined });
     });
     
     it('should make a GET request with query parameters', async () => {
@@ -105,7 +103,7 @@ describe('BaseService', () => {
       
       await service.testGet(path, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ query: params });
+      expect(mockOperation).toHaveBeenCalledWith({ params: params });
     });
     
     it('should return the response data', async () => {
@@ -123,11 +121,11 @@ describe('BaseService', () => {
     it('should make a POST request with the specified path', async () => {
       const path = '/content' as keyof paths;
       
-      await service.testPost(path);
+      await service.testPost(path, { content: "Test content" });
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('post');
-      expect(mockOperation).toHaveBeenCalledWith({ body: undefined, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ data: { content: "Test content" }, query: undefined });
     });
     
     it('should make a POST request with body data', async () => {
@@ -136,7 +134,7 @@ describe('BaseService', () => {
       
       await service.testPost(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
     });
     
     it('should make a POST request with query parameters', async () => {
@@ -146,7 +144,7 @@ describe('BaseService', () => {
       
       await service.testPost(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: params });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data });
     });
     
     it('should return the response data', async () => {
@@ -177,7 +175,7 @@ describe('BaseService', () => {
       
       await service.testPut(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
     });
     
     it('should make a PUT request with query parameters', async () => {
@@ -187,7 +185,7 @@ describe('BaseService', () => {
       
       await service.testPut(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: params });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data });
     });
     
     it('should return the response data', async () => {
@@ -209,7 +207,7 @@ describe('BaseService', () => {
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('patch');
-      expect(mockOperation).toHaveBeenCalledWith({ body: undefined, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ data: undefined, query: undefined });
     });
     
     it('should make a PATCH request with body data', async () => {
@@ -218,7 +216,7 @@ describe('BaseService', () => {
       
       await service.testPatch(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
     });
     
     it('should make a PATCH request with query parameters', async () => {
@@ -228,7 +226,7 @@ describe('BaseService', () => {
       
       await service.testPatch(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ body: data, query: params });
+      expect(mockOperation).toHaveBeenCalledWith({ data: data });
     });
     
     it('should return the response data', async () => {
@@ -259,7 +257,7 @@ describe('BaseService', () => {
       
       await service.testDelete(path, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ query: params });
+      expect(mockOperation).toHaveBeenCalledWith({ params: params });
     });
     
     it('should return the response data', async () => {

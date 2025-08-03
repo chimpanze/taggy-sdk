@@ -4,12 +4,10 @@ import { createMockFetcher, testServiceMethod } from './service-test-utils';
 
 describe('AIService', () => {
   let service: AIService;
-  let mockOperation: any;
 
   beforeEach(() => {
     // Create mock fetcher and service instance
-    const { mockFetcher, mockOperation: operation } = createMockFetcher();
-    mockOperation = operation;
+    const { mockFetcher } = createMockFetcher();
     service = new AIService(mockFetcher);
   });
 

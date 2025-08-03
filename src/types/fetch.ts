@@ -3,7 +3,7 @@
  */
 
 import type { ApiResponse } from 'openapi-typescript-fetch';
-import { FetchConfig, OpenapiPaths, TypedFetch } from 'openapi-typescript-fetch/types';
+import {CreateFetch, FetchConfig, OpenapiPaths, TypedFetch} from 'openapi-typescript-fetch/types';
 
 /**
  * Custom request init type
@@ -30,7 +30,7 @@ export interface TaggyFetcher<Paths extends OpenapiPaths<Paths>> {
     method: <M extends keyof Paths[P]>(
       method: M,
     ) => {
-      create: () => TypedFetch<Paths[P][M]>;
+      create: CreateFetch<M, Paths[P][M]>;
     };
   };
 }
