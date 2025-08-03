@@ -3,7 +3,7 @@
  */
 
 import type { ApiResponse } from 'openapi-typescript-fetch';
-import {CreateFetch, FetchConfig, OpenapiPaths, TypedFetch} from 'openapi-typescript-fetch/types';
+import {CreateFetch, FetchConfig, OpenapiPaths} from 'openapi-typescript-fetch/types';
 
 /**
  * Custom request init type
