@@ -67,38 +67,6 @@ jobs:
         with:
           name: dist
           path: dist/
-
-  publish:
-    needs: build
-    if: needs.build.outputs.new_release_published == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '23'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@chimpanze'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate types
-        run: npm run generate:types
-
-      - name: Build
-        run: npm run build
-
-      - name: Publish to GitHub Packages
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
   docs:
     needs: build
