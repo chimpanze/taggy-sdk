@@ -136,7 +136,7 @@ describe('Error Interceptor', () => {
         url: ['Invalid URL format']
       };
       
-      const errorResponse = createApiResponse(false, 422, { 
+      const errorResponse = createApiResponse(false, 400, {
         message: 'Validation Failed', 
         code: 'VALIDATION_ERROR',
         errors: validationErrors
