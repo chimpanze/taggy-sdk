@@ -1,3 +1,11 @@
+## [0.2.1](https://github.com/chimpanze/taggy-sdk/compare/v0.2.0...v0.2.1) (2025-08-03)
+
+
+### Bug Fixes
+
+* fixing tests ([#9](https://github.com/chimpanze/taggy-sdk/issues/9)) ([2824460](https://github.com/chimpanze/taggy-sdk/commit/2824460a1a96f825780a9a0d4548387089b5d3ae))
+* unify parameter naming for consistency across service methods ([#8](https://github.com/chimpanze/taggy-sdk/issues/8)) ([6d1c0d1](https://github.com/chimpanze/taggy-sdk/commit/6d1c0d1011e5cbc97204cb298b352422fa496792))
+
 # [0.2.0](https://github.com/chimpanze/taggy-sdk/compare/v0.1.0...v0.2.0) (2025-08-03)
 
 
