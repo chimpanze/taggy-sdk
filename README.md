@@ -6,7 +6,6 @@ A TypeScript client library for interacting with the Taggy API, a content organi
 [![Build and Publish](https://github.com/chimpanze/taggy-sdk/actions/workflows/publish.yml/badge.svg)](https://github.com/chimpanze/taggy-sdk/actions/workflows/publish.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-
 ## Installation
 
 To install the package from GitHub Packages, you first need to authenticate with GitHub Packages:
