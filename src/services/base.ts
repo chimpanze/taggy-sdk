@@ -48,7 +48,7 @@ export abstract class BaseService {
     if (params === undefined) {
       params = {};
     }
-    const response = await operation({ query: params } as OpArgType<paths[P]['get']>);
+    const response = await operation({ params } as OpArgType<paths[P]['get']>);
     return response.data as OpReturnType<paths[P]['get']>;
   }
 
@@ -65,7 +65,7 @@ export abstract class BaseService {
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['post']>> {
     const operation = this.createOperation('post', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['post']>);
+    const response = await operation({ data, query: params } as OpArgType<paths[P]['post']>);
     return response.data as OpReturnType<paths[P]['post']>;
   }
 
@@ -82,7 +82,7 @@ export abstract class BaseService {
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['put']>> {
     const operation = this.createOperation('put', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['put']>);
+    const response = await operation({ data, query: params } as OpArgType<paths[P]['put']>);
     return response.data as OpReturnType<paths[P]['put']>;
   }
 
@@ -99,7 +99,7 @@ export abstract class BaseService {
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['patch']>> {
     const operation = this.createOperation('patch', path);
-    const response = await operation({ body: data, query: params } as OpArgType<paths[P]['patch']>);
+    const response = await operation({ data, query: params } as OpArgType<paths[P]['patch']>);
     return response.data as OpReturnType<paths[P]['patch']>;
   }
 
@@ -114,7 +114,7 @@ export abstract class BaseService {
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['delete']>> {
     const operation = this.createOperation('delete', path);
-    const response = await operation({ query: params } as OpArgType<paths[P]['delete']>);
+    const response = await operation({ params } as OpArgType<paths[P]['delete']>);
     return response.data as OpReturnType<paths[P]['delete']>;
   }
 }
