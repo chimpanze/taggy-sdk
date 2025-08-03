@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createAuthInterceptor } from '../../src/interceptors/auth';
-import { AuthConfig } from '../../src/config';
 import type { ApiResponse } from 'openapi-typescript-fetch';
 
 // Mock Headers class for testing
@@ -59,11 +58,9 @@ describe('Auth Interceptor', () => {
   
   describe('skipping authentication', () => {
     it('should skip authentication for /auth/login endpoint', async () => {
-      // Create auth interceptor with token
-      const authConfig: AuthConfig = {
-        token: 'test-token'
-      };
-      const authInterceptor = createAuthInterceptor(authConfig);
+      // Create auth interceptor with token getter
+      const getToken = () => 'test-token';
+      const authInterceptor = createAuthInterceptor(getToken);
       
       // Call the interceptor with auth login endpoint
       const url = '/auth/login';
@@ -79,11 +76,9 @@ describe('Auth Interceptor', () => {
     });
     
     it('should skip authentication for /auth/register endpoint', async () => {
-      // Create auth interceptor with token
-      const authConfig: AuthConfig = {
-        token: 'test-token'
-      };
-      const authInterceptor = createAuthInterceptor(authConfig);
+      // Create auth interceptor with token getter
+      const getToken = () => 'test-token';
+      const authInterceptor = createAuthInterceptor(getToken);
       
       // Call the interceptor with auth register endpoint
       const url = '/auth/register';
@@ -101,11 +96,9 @@ describe('Auth Interceptor', () => {
   
   describe('token authentication', () => {
     it('should add Bearer token when token is provided', async () => {
-      // Create auth interceptor with token
-      const authConfig: AuthConfig = {
-        token: 'test-token'
-      };
-      const authInterceptor = createAuthInterceptor(authConfig);
+      // Create auth interceptor with token getter
+      const getToken = () => 'test-token';
+      const authInterceptor = createAuthInterceptor(getToken);
       
       // Call the interceptor with non-auth endpoint
       const url = '/api/content';
@@ -118,60 +111,11 @@ describe('Auth Interceptor', () => {
     });
   });
   
-  describe('custom token provider', () => {
-    it('should use getToken function when provided', async () => {
-      // Create mock getToken function
-      const getToken = vi.fn().mockResolvedValue('dynamic-token');
-      
-      // Create auth interceptor with getToken
-      const authConfig: AuthConfig = {
-        getToken
-      };
-      const authInterceptor = createAuthInterceptor(authConfig);
-      
-      // Call the interceptor with non-auth endpoint
-      const url = '/api/content';
-      const init = { headers: new Headers() };
-      await authInterceptor(url, init, mockNext);
-      
-      // Verify getToken was called
-      expect(getToken).toHaveBeenCalled();
-      
-      // Verify Authorization header was added with dynamic token
-      const headers = mockNext.mock.calls[0][1].headers;
-      expect(headers.get('Authorization')).toBe('Bearer dynamic-token');
-    });
-    
-    it('should prioritize getToken over token when both are provided', async () => {
-      // Create mock getToken function
-      const getToken = vi.fn().mockResolvedValue('dynamic-token');
-      
-      // Create auth interceptor with both getToken and token
-      const authConfig: AuthConfig = {
-        getToken,
-        token: 'static-token'
-      };
-      const authInterceptor = createAuthInterceptor(authConfig);
-      
-      // Call the interceptor with non-auth endpoint
-      const url = '/api/content';
-      const init = { headers: new Headers() };
-      await authInterceptor(url, init, mockNext);
-      
-      // Verify getToken was called
-      expect(getToken).toHaveBeenCalled();
-      
-      // Verify Authorization header was added with dynamic token
-      const headers = mockNext.mock.calls[0][1].headers;
-      expect(headers.get('Authorization')).toBe('Bearer dynamic-token');
-    });
-  });
-  
   describe('no authentication', () => {
-    it('should not add any auth headers when no auth config is provided', async () => {
-      // Create auth interceptor with empty config
-      const authConfig: AuthConfig = {};
-      const authInterceptor = createAuthInterceptor(authConfig);
+    it('should not add any auth headers when token getter returns undefined', async () => {
+      // Create auth interceptor with token getter that returns undefined
+      const getToken = () => undefined;
+      const authInterceptor = createAuthInterceptor(getToken);
       
       // Call the interceptor with non-auth endpoint
       const url = '/api/content';

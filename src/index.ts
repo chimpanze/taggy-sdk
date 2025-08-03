@@ -7,7 +7,7 @@
 export { TaggyClient } from './client';
 
 // Export configuration types
-export type { TaggyConfig, AuthConfig } from './config';
+export type { TaggyConfig } from './config';
 export { defaultConfig } from './config';
 
 // Export services
