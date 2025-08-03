@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/chimpanze/taggy-sdk/compare/v0.2.3...v0.3.0) (2025-08-03)
+
+
+### Features
+
+* adding /files/view/{id} route ([#13](https://github.com/chimpanze/taggy-sdk/issues/13)) ([a01090a](https://github.com/chimpanze/taggy-sdk/commit/a01090aaf5b5bc2e418ee73eb63190921ec0f64c))
+
 ## [0.2.3](https://github.com/chimpanze/taggy-sdk/compare/v0.2.2...v0.2.3) (2025-08-03)
 
 
