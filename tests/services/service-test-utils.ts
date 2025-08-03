@@ -95,7 +95,7 @@ export async function testServiceMethod<T extends BaseService>(
   if (params.method === 'post' || params.method === 'put' || params.method === 'patch') {
     // @ts-ignore
     if (params.requestData && emptyObject(params.requestData) === false) {
-      expectedOperationParams.data = params.requestData;
+      expectedOperationParams = params.requestData;
     }
   }
 

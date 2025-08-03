@@ -125,7 +125,7 @@ describe('BaseService', () => {
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('post');
-      expect(mockOperation).toHaveBeenCalledWith({ data: { content: "Test content" }, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ content: "Test content", query: undefined });
     });
     
     it('should make a POST request with body data', async () => {
@@ -134,7 +134,7 @@ describe('BaseService', () => {
       
       await service.testPost(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ ...data, query: undefined });
     });
     
     it('should make a POST request with query parameters', async () => {
@@ -144,7 +144,7 @@ describe('BaseService', () => {
       
       await service.testPost(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data });
+      expect(mockOperation).toHaveBeenCalledWith(data);
     });
     
     it('should return the response data', async () => {
@@ -166,7 +166,7 @@ describe('BaseService', () => {
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('put');
-      expect(mockOperation).toHaveBeenCalledWith({ body: undefined, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith(undefined);
     });
     
     it('should make a PUT request with body data', async () => {
@@ -175,7 +175,7 @@ describe('BaseService', () => {
       
       await service.testPut(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ ...data, query: undefined });
     });
     
     it('should make a PUT request with query parameters', async () => {
@@ -185,7 +185,7 @@ describe('BaseService', () => {
       
       await service.testPut(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data });
+      expect(mockOperation).toHaveBeenCalledWith(data);
     });
     
     it('should return the response data', async () => {
@@ -207,7 +207,7 @@ describe('BaseService', () => {
       
       expect(mockFetcher.path).toHaveBeenCalledWith(path);
       expect(mockFetcher.method).toHaveBeenCalledWith('patch');
-      expect(mockOperation).toHaveBeenCalledWith({ data: undefined, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith(undefined);
     });
     
     it('should make a PATCH request with body data', async () => {
@@ -216,7 +216,7 @@ describe('BaseService', () => {
       
       await service.testPatch(path, data);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data, query: undefined });
+      expect(mockOperation).toHaveBeenCalledWith({ ...data, query: undefined });
     });
     
     it('should make a PATCH request with query parameters', async () => {
@@ -226,7 +226,7 @@ describe('BaseService', () => {
       
       await service.testPatch(path, data, params);
       
-      expect(mockOperation).toHaveBeenCalledWith({ data: data });
+      expect(mockOperation).toHaveBeenCalledWith(data);
     });
     
     it('should return the response data', async () => {

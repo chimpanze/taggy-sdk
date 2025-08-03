@@ -68,7 +68,7 @@ export abstract class BaseService {
     // @ts-ignore
     const operation = this.createOperation('post', path, params);
     // @ts-ignore
-    const response = await operation({ data } as OpArgType<paths[P]['post']>);
+    const response = await operation(data as OpArgType<paths[P]['post']>);
     return response.data as OpReturnType<paths[P]['post']>;
   }
 
@@ -87,7 +87,7 @@ export abstract class BaseService {
     // @ts-ignore
     const operation = this.createOperation('put', path, params);
     // @ts-ignore
-    const response = await operation({ data } as OpArgType<paths[P]['put']>);
+    const response = await operation(data as OpArgType<paths[P]['put']>);
     return response.data as OpReturnType<paths[P]['put']>;
   }
 
@@ -106,7 +106,7 @@ export abstract class BaseService {
     // @ts-ignore
     const operation = this.createOperation('patch', path, params);
     // @ts-ignore
-    const response = await operation({ data } as OpArgType<paths[P]['patch']>);
+    const response = await operation(data as OpArgType<paths[P]['patch']>);
     return response.data as OpReturnType<paths[P]['patch']>;
   }
 
