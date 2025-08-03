@@ -1,8 +1,7 @@
-name: Build and Publish
+name: Build, Publish and Deploy
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
@@ -20,16 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Only run if the PR was merged (not just closed)
-  check-pr-merged:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
-    steps:
-      - name: PR was merged
-        run: echo "PR was merged, proceeding with build and publish"
-    
   build:
-    needs: check-pr-merged
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.semantic-release.outputs.new_release_published }}
@@ -70,10 +60,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           semantic_version: 19
-          branches: |
-            [
-              'main'
-            ]
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -115,8 +101,7 @@ jobs:
           
   docs:
     needs: build
-    # Always run docs when a PR is merged to main, regardless of whether a new version was published
-    if: github.event.pull_request.merged == true
+    # Always run docs when code is pushed to main, regardless of whether a new version was published
     runs-on: ubuntu-latest
     environment:
       name: github-pages

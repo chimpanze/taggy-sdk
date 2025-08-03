@@ -38,7 +38,8 @@
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "generate:types": "openapi-typescript ./openapi.yaml -o ./src/types/generated.ts",
-    "docs": "typedoc src/index.ts"
+    "docs": "typedoc src/index.ts",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "openapi-typescript-fetch": "^2.2.1",
