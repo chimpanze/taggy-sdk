@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/chimpanze/taggy-sdk/compare/v0.1.0...v0.2.0) (2025-08-03)
+
+
+### Features
+
+* add `export` modifier to type declarations across multiple service modules ([#7](https://github.com/chimpanze/taggy-sdk/issues/7)) ([ca4175f](https://github.com/chimpanze/taggy-sdk/commit/ca4175f6458d1bb6e2db4e34e8ca6e5990f1093a))
+
 # [0.1.0](https://github.com/chimpanze/taggy-sdk/compare/v0.0.7...v0.1.0) (2025-08-03)
 
 
