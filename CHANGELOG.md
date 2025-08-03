@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/chimpanze/taggy-sdk/compare/v0.0.7...v0.1.0) (2025-08-03)
+
+
+### Features
+
+* replace `AuthConfig` with token getter, streamline auth middleware, and update tests accordingly ([#6](https://github.com/chimpanze/taggy-sdk/issues/6)) ([bcf5b9d](https://github.com/chimpanze/taggy-sdk/commit/bcf5b9dc91fd102dcbbf084e4bbf93098c2b95fc))
+
 ## [0.0.7](https://github.com/chimpanze/taggy-sdk/compare/v0.0.6...v0.0.7) (2025-08-03)
 
 
