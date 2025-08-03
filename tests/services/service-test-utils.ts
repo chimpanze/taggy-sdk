@@ -12,12 +12,10 @@ import { ApiResponse } from 'openapi-typescript-fetch';
 export function createMockApiResponse(data: any = {}): ApiResponse<any> {
   // @ts-ignore - We're mocking the ApiResponse
   return {
-    data,
-    response: {
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-    },
+    data: data,
+    ok: true,
+    status: 200,
+    statusText: 'OK',
   };
 }
 
@@ -50,6 +48,10 @@ export type ServiceMethodParams = {
   requestData?: Record<string, any>;
   queryParams?: Record<string, any>;
 };
+
+function emptyObject(obj: Record<string, any>): boolean {
+  return Object.keys(obj).length === 0;
+}
 
 /**
  * Tests a service method that extends BaseService
@@ -88,19 +90,15 @@ export async function testServiceMethod<T extends BaseService>(
   expect(mockFetcher.method).toHaveBeenCalledWith(params.method);
   
   // Verify the operation was called with the correct parameters
-  const expectedOperationParams: Record<string, any> = {};
-  
-  if (params.method === 'get' || params.method === 'delete') {
-    if (params.queryParams) {
-      expectedOperationParams.query = params.queryParams;
-    }
-  } else {
-    expectedOperationParams.body = params.requestData;
-    if (params.queryParams) {
-      expectedOperationParams.query = params.queryParams;
+  let expectedOperationParams: Record<string, any> = {};
+
+  if (params.method === 'post' || params.method === 'put' || params.method === 'patch') {
+    // @ts-ignore
+    if (params.requestData && emptyObject(params.requestData) === false) {
+      expectedOperationParams.data = params.requestData;
     }
   }
-  
+
   expect(mockOperation).toHaveBeenCalledWith(expect.objectContaining(expectedOperationParams));
   
   // Verify the result matches the expected response

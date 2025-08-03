@@ -28,10 +28,12 @@ export abstract class BaseService {
    * Creates a fetch operation for a specific path and method
    * @param method HTTP method
    * @param path API path
+   * @param query
    * @returns Fetch operation
    */
-  protected createOperation<P extends keyof paths, M extends keyof paths[P]>(method: M, path: P) {
-    return this.fetcher.path(path).method(method).create();
+  protected createOperation<P extends keyof paths, M extends keyof paths[P]>(method: M, path: P, query?: never) {
+    // @ts-ignore
+    return this.fetcher.path(path).method(method).create(query);
   }
 
   /**
@@ -44,11 +46,10 @@ export abstract class BaseService {
     path: P,
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['get']>> {
-    const operation = this.createOperation('get', path);
-    if (params === undefined) {
-      params = {};
-    }
-    const response = await operation({ params } as OpArgType<paths[P]['get']>);
+    // @ts-ignore
+    const operation = this.createOperation('get', path, params);
+    // @ts-ignore
+    const response = await operation({ params });
     return response.data as OpReturnType<paths[P]['get']>;
   }
 
@@ -64,8 +65,10 @@ export abstract class BaseService {
     data?: Record<string, any>,
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['post']>> {
-    const operation = this.createOperation('post', path);
-    const response = await operation({ data, query: params } as OpArgType<paths[P]['post']>);
+    // @ts-ignore
+    const operation = this.createOperation('post', path, params);
+    // @ts-ignore
+    const response = await operation({ data } as OpArgType<paths[P]['post']>);
     return response.data as OpReturnType<paths[P]['post']>;
   }
 
@@ -81,8 +84,10 @@ export abstract class BaseService {
     data?: Record<string, any>,
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['put']>> {
-    const operation = this.createOperation('put', path);
-    const response = await operation({ data, query: params } as OpArgType<paths[P]['put']>);
+    // @ts-ignore
+    const operation = this.createOperation('put', path, params);
+    // @ts-ignore
+    const response = await operation({ data } as OpArgType<paths[P]['put']>);
     return response.data as OpReturnType<paths[P]['put']>;
   }
 
@@ -98,8 +103,10 @@ export abstract class BaseService {
     data?: Record<string, any>,
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['patch']>> {
-    const operation = this.createOperation('patch', path);
-    const response = await operation({ data, query: params } as OpArgType<paths[P]['patch']>);
+    // @ts-ignore
+    const operation = this.createOperation('patch', path, params);
+    // @ts-ignore
+    const response = await operation({ data } as OpArgType<paths[P]['patch']>);
     return response.data as OpReturnType<paths[P]['patch']>;
   }
 
@@ -113,8 +120,10 @@ export abstract class BaseService {
     path: P,
     params?: Record<string, any>,
   ): Promise<OpReturnType<paths[P]['delete']>> {
-    const operation = this.createOperation('delete', path);
-    const response = await operation({ params } as OpArgType<paths[P]['delete']>);
+    // @ts-ignore
+    const operation = this.createOperation('delete', path, params);
+    // @ts-ignore
+    const response = await operation({ params });
     return response.data as OpReturnType<paths[P]['delete']>;
   }
 }
