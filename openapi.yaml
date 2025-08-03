@@ -193,7 +193,7 @@ paths:
       summary: Update AI settings
       tags:
         - ai
-  /ai/suggestions/{contentId}:
+  "/ai/suggestions/{contentId}":
     get:
       description: Get AI-generated tag suggestions for a specific content item
       parameters:
@@ -279,7 +279,7 @@ paths:
       summary: Train AI model
       tags:
         - ai
-  /archive/{id}:
+  "/archive/{id}":
     delete:
       description: Delete an existing archive by its ID
       parameters:
@@ -412,7 +412,7 @@ paths:
       summary: Create a web page archive
       tags:
         - archive
-  /archive/status/{id}:
+  "/archive/status/{id}":
     get:
       description: Check the status of an archive creation process
       parameters:
@@ -2169,6 +2169,66 @@ paths:
       security:
         - BearerAuth: []
       summary: Upload a file
+      tags:
+        - files
+  "/files/view/{id}":
+    get:
+      description: View a file by ID for the authenticated user directly in the browser
+      parameters:
+        - description: File ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: Return thumbnail image
+          in: query
+          name: use_thumbnail
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "401":
+          description: Unauthorized
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: Not Found
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - BearerAuth: []
+      summary: View a file in browser
       tags:
         - files
   /health:

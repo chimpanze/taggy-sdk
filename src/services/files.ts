@@ -14,6 +14,7 @@ export type PresignedURLRequestData = OpArgType<paths['/files/presigned']['post'
 export type PresignedURLResponse = OpReturnType<paths['/files/presigned']['post']>;
 export type FileUploadRequestData = OpArgType<paths['/files/upload']['post']>;
 export type FileUploadResponse = OpReturnType<paths['/files/upload']['post']>;
+export type FileViewResponse = OpReturnType<paths['/files/view/{id}']['get']>;
 
 /**
  * Service for file operations
@@ -61,5 +62,16 @@ export class FilesService extends BaseService {
    */
   async upload(data: FileUploadRequestData): Promise<FileUploadResponse> {
     return this.post<'/files/upload'>('/files/upload', data);
+  }
+
+  /**
+   * Fetches and returns details of a file by its ID. Optionally, a thumbnail version of the file can be requested.
+   *
+   * @param {string} id - The unique identifier of the file to retrieve.
+   * @param {boolean} thumbnail - A flag to indicate if the thumbnail version of the file should be fetched.
+   * @return {Promise<FileViewResponse>} A promise that resolves to the details of the file.
+   */
+  async view(id: string, thumbnail: boolean = false): Promise<FileViewResponse> {
+    return this.get<'/files/view/{id}'>(`/files/view/${id}?use_thumbnail=${thumbnail}` as '/files/view/{id}');
   }
 }
