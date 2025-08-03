@@ -51,8 +51,7 @@ async function main() {
     const contentItems = await client.content.getAll();
     console.log('Content items:', contentItems);
     
-    // Get all tags
-    const tags = await client.tags.getAll();
+    const tags = await client.tags.list();
     console.log('Tags:', tags);
   } catch (error) {
     console.error('Error:', error);
@@ -65,16 +64,6 @@ main();
 ## Authentication
 
 The Taggy SDK supports multiple authentication methods:
-
-### API Key
-
-```typescript
-const client = new TaggyClient({
-  auth: {
-    apiKey: 'your-api-key'
-  }
-});
-```
 
 ### JWT Token
 
@@ -89,14 +78,8 @@ const client = new TaggyClient({
 ### Custom Token Provider
 
 ```typescript
-const client = new TaggyClient({
-  auth: {
-    getToken: async () => {
-      // Implement your token retrieval logic here
-      return 'your-token';
-    }
-  }
-});
+const client = new TaggyClient();
+client.setToken(myToken)
 ```
 
 ## Configuration Options
@@ -108,22 +91,10 @@ const client = new TaggyClient({
   // Base URL for the API (default: 'https://api.taggy.com/api/v1')
   baseUrl: 'https://api.taggy.com/api/v1',
   
-  // Authentication configuration
-  auth: {
-    apiKey: 'your-api-key',
-    // OR
-    token: 'your-jwt-token',
-    // OR
-    getToken: async () => 'your-token'
-  },
-  
   // Custom headers to include in all requests
   headers: {
     'X-Custom-Header': 'custom-value'
   },
-  
-  // SDK version (automatically set)
-  version: '1.0.0'
 });
 ```
 
@@ -135,7 +106,7 @@ The Taggy SDK provides the following services:
 
 ```typescript
 // Get all content items
-const contentItems = await client.content.getAll();
+const contentItems = await client.content.list();
 
 // Get a specific content item by ID
 const contentItem = await client.content.getById(123);
@@ -161,7 +132,7 @@ await client.content.delete(123);
 
 ```typescript
 // Get all tags
-const tags = await client.tags.getAll();
+const tags = await client.tags.list();
 
 // Get a specific tag by ID
 const tag = await client.tags.getById(123);
@@ -220,7 +191,7 @@ import {
 
 try {
   // Use the SDK
-  const contentItems = await client.content.getAll();
+  const contentItems = await client.content.list();
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);
