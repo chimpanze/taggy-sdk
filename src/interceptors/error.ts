@@ -161,7 +161,7 @@ export function createErrorHandler(): Middleware {
           case 404:
             throw new NotFoundError(errorMessage, errorCode, error);
 
-          case 422:
+          case 400:
             throw new ValidationError(
               errorMessage,
               errorCode,
