@@ -8,14 +8,14 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type AnalyzeContentRequestData = OpArgType<paths['/ai/analyze']['post']>;
-type AnalyzeContentResponse = OpReturnType<paths['/ai/analyze']['post']>;
-type ListModelsResponse = OpReturnType<paths['/ai/models']['get']>;
-type GetSettingsResponse = OpReturnType<paths['/ai/settings']['get']>;
-type UpdateSettingsRequestData = OpArgType<paths['/ai/settings']['put']>;
-type UpdateSettingsResponse = OpReturnType<paths['/ai/settings']['put']>;
-type GetSuggestionsResponse = OpReturnType<paths['/ai/suggestions/{contentId}']['get']>;
-type TrainModelResponse = OpReturnType<paths['/ai/train']['post']>;
+export type AnalyzeContentRequestData = OpArgType<paths['/ai/analyze']['post']>;
+export type AnalyzeContentResponse = OpReturnType<paths['/ai/analyze']['post']>;
+export type ListModelsResponse = OpReturnType<paths['/ai/models']['get']>;
+export type GetSettingsResponse = OpReturnType<paths['/ai/settings']['get']>;
+export type UpdateSettingsRequestData = OpArgType<paths['/ai/settings']['put']>;
+export type UpdateSettingsResponse = OpReturnType<paths['/ai/settings']['put']>;
+export type GetSuggestionsResponse = OpReturnType<paths['/ai/suggestions/{contentId}']['get']>;
+export type TrainModelResponse = OpReturnType<paths['/ai/train']['post']>;
 
 /**
  * Service for AI operations

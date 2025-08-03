@@ -9,33 +9,33 @@ import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
 // Collection sharing types
-type ListSharedCollectionsResponse = OpReturnType<paths['/sharing/collections']['get']>;
-type AddCollaboratorsRequestData = OpArgType<
+export type ListSharedCollectionsResponse = OpReturnType<paths['/sharing/collections']['get']>;
+export type AddCollaboratorsRequestData = OpArgType<
   paths['/sharing/collections/{id}/collaborate']['post']
 >;
-type UpdatePermissionsRequestData = OpArgType<
+export type UpdatePermissionsRequestData = OpArgType<
   paths['/sharing/collections/{id}/permissions']['put']
 >;
-type UpdatePermissionsResponse = OpReturnType<
+export type UpdatePermissionsResponse = OpReturnType<
   paths['/sharing/collections/{id}/permissions']['put']
 >;
-type ShareCollectionRequestData = OpArgType<paths['/sharing/collections/{id}/share']['post']>;
-type ShareCollectionResponse = OpReturnType<paths['/sharing/collections/{id}/share']['post']>;
+export type ShareCollectionRequestData = OpArgType<paths['/sharing/collections/{id}/share']['post']>;
+export type ShareCollectionResponse = OpReturnType<paths['/sharing/collections/{id}/share']['post']>;
 
 // Invitation types
-type ListInvitationsResponse = OpReturnType<paths['/sharing/invitations']['get']>;
-type AcceptInvitationResponse = OpReturnType<paths['/sharing/invitations/{id}/accept']['post']>;
-type DeclineInvitationResponse = OpReturnType<paths['/sharing/invitations/{id}/decline']['post']>;
+export type ListInvitationsResponse = OpReturnType<paths['/sharing/invitations']['get']>;
+export type AcceptInvitationResponse = OpReturnType<paths['/sharing/invitations/{id}/accept']['post']>;
+export type DeclineInvitationResponse = OpReturnType<paths['/sharing/invitations/{id}/decline']['post']>;
 
 // Public sharing types
-type GetPublicShareResponse = OpReturnType<paths['/sharing/public/{shareId}']['get']>;
+export type GetPublicShareResponse = OpReturnType<paths['/sharing/public/{shareId}']['get']>;
 
 // Tag sharing types
-type ShareTagRequestData = OpArgType<paths['/sharing/tags/{id}/share']['post']>;
-type ShareTagResponse = OpReturnType<paths['/sharing/tags/{id}/share']['post']>;
-type ImportTagsRequestData = OpArgType<paths['/sharing/tags/import']['post']>;
-type ImportTagsResponse = OpReturnType<paths['/sharing/tags/import']['post']>;
-type GetPublicTagsResponse = OpReturnType<paths['/sharing/tags/public']['get']>;
+export type ShareTagRequestData = OpArgType<paths['/sharing/tags/{id}/share']['post']>;
+export type ShareTagResponse = OpReturnType<paths['/sharing/tags/{id}/share']['post']>;
+export type ImportTagsRequestData = OpArgType<paths['/sharing/tags/import']['post']>;
+export type ImportTagsResponse = OpReturnType<paths['/sharing/tags/import']['post']>;
+export type GetPublicTagsResponse = OpReturnType<paths['/sharing/tags/public']['get']>;
 
 /**
  * Service for sharing operations

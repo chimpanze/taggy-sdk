@@ -8,15 +8,15 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type DeleteMediaResponse = OpReturnType<paths['/media/{id}']['delete']>;
-type FetchMediaRequestData = OpArgType<paths['/media/fetch']['post']>;
-type FetchMediaResponse = OpReturnType<paths['/media/fetch']['post']>;
-type FetchAudioRequestData = OpArgType<paths['/media/fetch-audio']['post']>;
-type FetchAudioResponse = OpReturnType<paths['/media/fetch-audio']['post']>;
-type FetchStatusResponse = OpReturnType<paths['/media/fetch-status/{jobId}']['get']>;
-type MediaFormatsResponse = OpReturnType<paths['/media/formats/{url}']['get']>;
-type MediaSettingsResponse = OpReturnType<paths['/media/settings']['get']>;
-type UpdateMediaSettingsRequestData = OpArgType<paths['/media/settings']['put']>;
+export type DeleteMediaResponse = OpReturnType<paths['/media/{id}']['delete']>;
+export type FetchMediaRequestData = OpArgType<paths['/media/fetch']['post']>;
+export type FetchMediaResponse = OpReturnType<paths['/media/fetch']['post']>;
+export type FetchAudioRequestData = OpArgType<paths['/media/fetch-audio']['post']>;
+export type FetchAudioResponse = OpReturnType<paths['/media/fetch-audio']['post']>;
+export type FetchStatusResponse = OpReturnType<paths['/media/fetch-status/{jobId}']['get']>;
+export type MediaFormatsResponse = OpReturnType<paths['/media/formats/{url}']['get']>;
+export type MediaSettingsResponse = OpReturnType<paths['/media/settings']['get']>;
+export type UpdateMediaSettingsRequestData = OpArgType<paths['/media/settings']['put']>;
 
 /**
  * Service for media operations

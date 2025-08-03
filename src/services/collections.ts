@@ -8,16 +8,16 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetCollectionResponse = OpReturnType<paths['/collections/{id}']['get']>;
-type ListCollectionsRequestData = OpArgType<paths['/collections']['get']>;
-type ListCollectionsResponse = OpReturnType<paths['/collections']['get']>;
-type CreateCollectionRequestData = OpArgType<paths['/collections']['post']>;
-type CreateCollectionResponse = OpReturnType<paths['/collections']['post']>;
-type UpdateCollectionRequestData = OpArgType<paths['/collections/{id}']['put']>;
-type DeleteCollectionResponse = OpReturnType<paths['/collections/{id}']['delete']>;
-type AddItemsRequestData = OpArgType<paths['/collections/{id}/items']['post']>;
-type AddItemsResponse = OpReturnType<paths['/collections/{id}/items']['post']>;
-type RemoveItemResponse = OpReturnType<paths['/collections/{id}/items/{itemId}']['delete']>;
+export type GetCollectionResponse = OpReturnType<paths['/collections/{id}']['get']>;
+export type ListCollectionsRequestData = OpArgType<paths['/collections']['get']>;
+export type ListCollectionsResponse = OpReturnType<paths['/collections']['get']>;
+export type CreateCollectionRequestData = OpArgType<paths['/collections']['post']>;
+export type CreateCollectionResponse = OpReturnType<paths['/collections']['post']>;
+export type UpdateCollectionRequestData = OpArgType<paths['/collections/{id}']['put']>;
+export type DeleteCollectionResponse = OpReturnType<paths['/collections/{id}']['delete']>;
+export type AddItemsRequestData = OpArgType<paths['/collections/{id}/items']['post']>;
+export type AddItemsResponse = OpReturnType<paths['/collections/{id}/items']['post']>;
+export type RemoveItemResponse = OpReturnType<paths['/collections/{id}/items/{itemId}']['delete']>;
 
 /**
  * Service for collections operations

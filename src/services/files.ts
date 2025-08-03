@@ -8,12 +8,12 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type DownloadFileResponse = OpReturnType<paths['/files/{id}']['get']>;
-type DeleteFileResponse = OpReturnType<paths['/files/{id}']['delete']>;
-type PresignedURLRequestData = OpArgType<paths['/files/presigned']['post']>;
-type PresignedURLResponse = OpReturnType<paths['/files/presigned']['post']>;
-type FileUploadRequestData = OpArgType<paths['/files/upload']['post']>;
-type FileUploadResponse = OpReturnType<paths['/files/upload']['post']>;
+export type DownloadFileResponse = OpReturnType<paths['/files/{id}']['get']>;
+export type DeleteFileResponse = OpReturnType<paths['/files/{id}']['delete']>;
+export type PresignedURLRequestData = OpArgType<paths['/files/presigned']['post']>;
+export type PresignedURLResponse = OpReturnType<paths['/files/presigned']['post']>;
+export type FileUploadRequestData = OpArgType<paths['/files/upload']['post']>;
+export type FileUploadResponse = OpReturnType<paths['/files/upload']['post']>;
 
 /**
  * Service for file operations
