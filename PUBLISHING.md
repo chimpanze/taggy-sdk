@@ -43,7 +43,13 @@ Examples:
 
 ## Authentication for GitHub Packages
 
-The GitHub Actions workflow automatically uses the `GITHUB_TOKEN` that is provided by GitHub Actions, so no additional setup is required for authentication.
+The GitHub Actions workflow automatically uses the `GITHUB_TOKEN` that is provided by GitHub Actions for authentication. This token is used in two ways:
+
+1. As `GITHUB_TOKEN` for GitHub API operations (creating releases, etc.)
+2. As `NPM_TOKEN` for semantic-release to authenticate with the npm registry
+3. As `NODE_AUTH_TOKEN` for the npm publish command
+
+No additional setup is required for authentication in the CI environment.
 
 If you need to authenticate locally for testing, you can create a Personal Access Token (PAT) with the appropriate permissions:
 
@@ -65,6 +71,7 @@ If you need to authenticate locally for testing, you can create a Personal Acces
 If the publication fails, check the GitHub Actions logs for errors. Common issues include:
 
 - **Authentication failure**: Check that the workflow has access to the `GITHUB_TOKEN` (this should be automatic)
+- **Missing NPM_TOKEN**: If semantic-release fails with "No npm token specified", ensure that the NPM_TOKEN environment variable is set in the semantic-release step of the workflow
 - **Version conflict**: This should not happen with semantic-release, but if it does, check if the version was manually modified
 - **Build failure**: Make sure all tests pass and the build completes successfully
 - **Package.json issues**: Verify that package.json is valid and contains all required fields, including the correct scope (@chimpanze)
