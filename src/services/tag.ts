@@ -8,14 +8,14 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetTagResponse = OpReturnType<paths['/tags/{id}']['get']>;
-type ListTagRequestData = OpArgType<paths['/tags']['get']>;
-type ListTagResponse = OpReturnType<paths['/tags']['get']>;
-type CreateTagRequestData = OpArgType<paths['/tags']['post']>;
-type CreateTagResponse = OpReturnType<paths['/tags']['post']>;
-type UpdateTagRequestData = OpArgType<paths['/tags/{id}']['put']>;
-type UpdateTagResponse = OpReturnType<paths['/tags/{id}']['put']>;
-type DeleteTagResponse = OpReturnType<paths['/tags/{id}']['delete']>;
+export type GetTagResponse = OpReturnType<paths['/tags/{id}']['get']>;
+export type ListTagRequestData = OpArgType<paths['/tags']['get']>;
+export type ListTagResponse = OpReturnType<paths['/tags']['get']>;
+export type CreateTagRequestData = OpArgType<paths['/tags']['post']>;
+export type CreateTagResponse = OpReturnType<paths['/tags']['post']>;
+export type UpdateTagRequestData = OpArgType<paths['/tags/{id}']['put']>;
+export type UpdateTagResponse = OpReturnType<paths['/tags/{id}']['put']>;
+export type DeleteTagResponse = OpReturnType<paths['/tags/{id}']['delete']>;
 
 /**
  * Service for tag operations

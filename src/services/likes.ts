@@ -8,10 +8,10 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetLikedCollectionsResponse = OpReturnType<paths['/likes/collections']['get']>;
-type CheckLikeResponse = OpReturnType<paths['/likes/collections/{id}/like']['get']>;
-type LikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['post']>;
-type UnlikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['delete']>;
+export type GetLikedCollectionsResponse = OpReturnType<paths['/likes/collections']['get']>;
+export type CheckLikeResponse = OpReturnType<paths['/likes/collections/{id}/like']['get']>;
+export type LikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['post']>;
+export type UnlikeCollectionResponse = OpReturnType<paths['/likes/collections/{id}/like']['delete']>;
 
 /**
  * Service for likes operations

@@ -8,13 +8,13 @@ import { paths } from '../types/generated.ts';
 import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
-type GetContentResponse = OpReturnType<paths['/content/{id}']['get']>;
-type ListContentRequestData = OpArgType<paths['/content']['post']>;
-type ListContentResponse = OpReturnType<paths['/content']['get']>;
-type CreateContentRequestData = OpArgType<paths['/content']['post']>;
-type CreateContentResponse = OpReturnType<paths['/content']['post']>;
-type UpdateContentRequestData = OpArgType<paths['/content/{id}']['put']>;
-type DeleteContentResponse = OpReturnType<paths['/content/{id}']['delete']>;
+export type GetContentResponse = OpReturnType<paths['/content/{id}']['get']>;
+export type ListContentRequestData = OpArgType<paths['/content']['post']>;
+export type ListContentResponse = OpReturnType<paths['/content']['get']>;
+export type CreateContentRequestData = OpArgType<paths['/content']['post']>;
+export type CreateContentResponse = OpReturnType<paths['/content']['post']>;
+export type UpdateContentRequestData = OpArgType<paths['/content/{id}']['put']>;
+export type DeleteContentResponse = OpReturnType<paths['/content/{id}']['delete']>;
 
 /**
  * Service for content operations

@@ -10,8 +10,8 @@ import { TaggyFetcher } from '../types/fetch.ts';
 // Define response types for system endpoints
 // Since these endpoints might not be explicitly defined in the OpenAPI spec,
 // we're using generic types that should be compatible with most health/ready endpoints
-type ReadyResponse = { status: string; message?: string } | string;
-type HealthResponse = { status: string; version?: string; details?: Record<string, any> } | string;
+export type ReadyResponse = { status: string; message?: string } | string;
+export type HealthResponse = { status: string; version?: string; details?: Record<string, any> } | string;
 
 /**
  * Service for system operations

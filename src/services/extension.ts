@@ -9,21 +9,21 @@ import { TaggyFetcher } from '../types/fetch.ts';
 import { OpArgType, OpReturnType } from 'openapi-typescript-fetch/types';
 
 // Type aliases for request and response data
-type GetAISuggestionsResponse = OpReturnType<paths['/extension/ai-suggestions/{contentId}']['get']>;
-type ArchivePageRequestData = OpArgType<paths['/extension/archive']['post']>;
-type ArchivePageResponse = OpReturnType<paths['/extension/archive']['post']>;
-type GetMediaJobResponse = OpReturnType<paths['/extension/media-job/{jobId}']['get']>;
-type QuickTagRequestData = OpArgType<paths['/extension/quick-tag']['post']>;
-type QuickTagResponse = OpReturnType<paths['/extension/quick-tag']['post']>;
-type SaveBookmarkRequestData = OpArgType<paths['/extension/save-bookmark']['post']>;
-type SaveBookmarkResponse = OpReturnType<paths['/extension/save-bookmark']['post']>;
-type SaveImageRequestData = OpArgType<paths['/extension/save-image']['post']>;
-type SaveImageResponse = OpReturnType<paths['/extension/save-image']['post']>;
-type SaveTextRequestData = OpArgType<paths['/extension/save-text']['post']>;
-type SaveTextResponse = OpReturnType<paths['/extension/save-text']['post']>;
-type SaveVideoRequestData = OpArgType<paths['/extension/save-video']['post']>;
-type SaveVideoResponse = OpReturnType<paths['/extension/save-video']['post']>;
-type GetTagsResponse = OpReturnType<paths['/extension/tags']['get']>;
+export type GetAISuggestionsResponse = OpReturnType<paths['/extension/ai-suggestions/{contentId}']['get']>;
+export type ArchivePageRequestData = OpArgType<paths['/extension/archive']['post']>;
+export type ArchivePageResponse = OpReturnType<paths['/extension/archive']['post']>;
+export type GetMediaJobResponse = OpReturnType<paths['/extension/media-job/{jobId}']['get']>;
+export type QuickTagRequestData = OpArgType<paths['/extension/quick-tag']['post']>;
+export type QuickTagResponse = OpReturnType<paths['/extension/quick-tag']['post']>;
+export type SaveBookmarkRequestData = OpArgType<paths['/extension/save-bookmark']['post']>;
+export type SaveBookmarkResponse = OpReturnType<paths['/extension/save-bookmark']['post']>;
+export type SaveImageRequestData = OpArgType<paths['/extension/save-image']['post']>;
+export type SaveImageResponse = OpReturnType<paths['/extension/save-image']['post']>;
+export type SaveTextRequestData = OpArgType<paths['/extension/save-text']['post']>;
+export type SaveTextResponse = OpReturnType<paths['/extension/save-text']['post']>;
+export type SaveVideoRequestData = OpArgType<paths['/extension/save-video']['post']>;
+export type SaveVideoResponse = OpReturnType<paths['/extension/save-video']['post']>;
+export type GetTagsResponse = OpReturnType<paths['/extension/tags']['get']>;
 
 /**
  * Service for extension operations
