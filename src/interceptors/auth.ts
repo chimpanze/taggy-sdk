@@ -2,16 +2,15 @@
  * Auth Interceptor
  */
 
-import { AuthConfig } from '../config';
 import { CustomRequestInit } from '../types/fetch.ts';
 import type { ApiResponse } from 'openapi-typescript-fetch';
 
 /**
  * Creates an authentication interceptor for Axios
- * @param authConfig Authentication configuration
+ * @param getToken Function to get the current token
  * @returns Axios request interceptor function
  */
-export function createAuthInterceptor(authConfig: AuthConfig) {
+export function createAuthInterceptor(getToken: () => string | undefined) {
   return async (
     url: string,
     init: CustomRequestInit,
@@ -25,17 +24,10 @@ export function createAuthInterceptor(authConfig: AuthConfig) {
     // Clone the config to avoid modifying the original
     const newConfig = { ...init };
 
-    // Use custom token provider if available
-    if (authConfig.getToken) {
-      const token = await authConfig.getToken();
-      newConfig.headers.set('Authorization', `Bearer ${token}`);
-      return next(url, newConfig);
-    }
-
     // Use JWT token if available
-    if (authConfig.token) {
-      newConfig.headers.set('Authorization', `Bearer ${authConfig.token}`);
-      return next(url, newConfig);
+    const token = getToken();
+    if (token) {
+      newConfig.headers.set('Authorization', `Bearer ${token}`);
     }
 
     // No authentication provided

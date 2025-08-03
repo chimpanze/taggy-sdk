@@ -55,7 +55,7 @@ describe('TaggyClient', () => {
     
     it('should add error handler middleware', () => {
       const client = new TaggyClient();
-      expect(mockFetcher.use).toHaveBeenCalledTimes(1);
+      expect(mockFetcher.use).toHaveBeenCalledTimes(2);
     });
     
     it('should add auth middleware when auth config is provided', () => {
@@ -177,64 +177,11 @@ describe('TaggyClient', () => {
       expect(client.system).toBeDefined();
     });
   });
-  
+
   describe('auth middleware', () => {
-    it('should add API key header when apiKey is provided', async () => {
-      const client = new TaggyClient({
-        auth: {
-          apiKey: 'test-api-key',
-        },
-      });
-      
-      // Extract the auth middleware
-      const authMiddleware = mockFetcher.use.mock.calls[1][0];
-      
-      // Mock Headers
-      global.Headers = class {
-        private headers: Record<string, string> = {};
-        
-        constructor(init?: any) {
-          if (init) {
-            Object.entries(init).forEach(([key, value]) => {
-              this.headers[key] = value as string;
-            });
-          }
-        }
-        
-        set(name: string, value: string) {
-          this.headers[name] = value;
-        }
-        
-        get(name: string) {
-          return this.headers[name];
-        }
-      } as any;
-      
-      // Mock next function
-      const mockNext = vi.fn().mockResolvedValue(new ApiResponse({}, new Response()));
-      
-      // Call the middleware
-      await authMiddleware('/api/v1/content', { headers: {} }, mockNext);
-      
-      // Check that next was called with the right headers
-      expect(mockNext).toHaveBeenCalledWith(
-        '/api/v1/content',
-        expect.objectContaining({
-          headers: expect.any(Headers),
-        })
-      );
-      
-      // Check that the X-API-Key header was set
-      const headers = mockNext.mock.calls[0][1].headers;
-      expect(headers.get('X-API-Key')).toBe('test-api-key');
-    });
-    
     it('should add Bearer token header when token is provided', async () => {
-      const client = new TaggyClient({
-        auth: {
-          token: 'test-token',
-        },
-      });
+      const client = new TaggyClient();
+      client.setToken('test-token');
       
       // Extract the auth middleware
       const authMiddleware = mockFetcher.use.mock.calls[1][0];
@@ -269,75 +216,6 @@ describe('TaggyClient', () => {
       // Check that the Authorization header was set
       const headers = mockNext.mock.calls[0][1].headers;
       expect(headers.get('Authorization')).toBe('Bearer test-token');
-    });
-    
-    it('should use getToken function when provided', async () => {
-      const getToken = vi.fn().mockResolvedValue('dynamic-token');
-      
-      const client = new TaggyClient({
-        auth: {
-          getToken,
-        },
-      });
-      
-      // Extract the auth middleware
-      const authMiddleware = mockFetcher.use.mock.calls[1][0];
-      
-      // Mock Headers
-      global.Headers = class {
-        private headers: Record<string, string> = {};
-        
-        constructor(init?: any) {
-          if (init) {
-            Object.entries(init).forEach(([key, value]) => {
-              this.headers[key] = value as string;
-            });
-          }
-        }
-        
-        set(name: string, value: string) {
-          this.headers[name] = value;
-        }
-        
-        get(name: string) {
-          return this.headers[name];
-        }
-      } as any;
-      
-      // Mock next function
-      // @ts-ignore
-      const mockNext = vi.fn().mockResolvedValue(new ApiResponse({}, new Response()));
-      
-      // Call the middleware
-      await authMiddleware('/api/v1/content', { headers: {} }, mockNext);
-      
-      // Check that getToken was called
-      expect(getToken).toHaveBeenCalled();
-      
-      // Check that the Authorization header was set with the dynamic token
-      const headers = mockNext.mock.calls[0][1].headers;
-      expect(headers.get('Authorization')).toBe('Bearer dynamic-token');
-    });
-    
-    it('should skip authentication for auth endpoints', async () => {
-      const client = new TaggyClient({
-        auth: {
-          apiKey: 'test-api-key',
-        },
-      });
-      
-      // Extract the auth middleware
-      const authMiddleware = mockFetcher.use.mock.calls[1][0];
-      
-      // Mock next function
-      // @ts-ignore
-      const mockNext = vi.fn().mockResolvedValue(new ApiResponse({}, new Response()));
-      
-      // Call the middleware with an auth endpoint
-      await authMiddleware('/api/v1/auth/login', { headers: {} }, mockNext);
-      
-      // Check that next was called with the original headers
-      expect(mockNext).toHaveBeenCalledWith('/api/v1/auth/login', { headers: {} });
     });
   });
 });

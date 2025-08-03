@@ -5,7 +5,7 @@
 
 import { Fetcher, ApiResponse } from 'openapi-typescript-fetch';
 import { paths } from './types/generated';
-import { TaggyConfig, defaultConfig, AuthConfig } from './config';
+import { TaggyConfig, defaultConfig } from './config';
 import { createErrorHandler } from './interceptors/error';
 import { AuthService } from './services/auth';
 import { ContentService } from './services/content';
@@ -29,6 +29,7 @@ import { CustomRequestInit, TaggyFetcher } from './types/fetch.ts';
 export class TaggyClient {
   private readonly config: TaggyConfig;
   private readonly fetcher: TaggyFetcher<paths>;
+  private _token?: string;
 
   /**
    * Service instances
@@ -75,10 +76,8 @@ export class TaggyClient {
     // Add error handler
     this.fetcher.use(createErrorHandler());
 
-    // Add auth middleware if auth config is provided
-    if (this.config.auth) {
-      this.fetcher.use(this.createAuthMiddleware(this.config.auth));
-    }
+    // Add auth middleware
+    this.fetcher.use(this.createAuthMiddleware());
 
     // Initialize services
     this.auth = new AuthService(this.fetcher);
@@ -99,35 +98,20 @@ export class TaggyClient {
 
   /**
    * Creates authentication middleware for the fetcher
-   * @param authConfig Authentication configuration
    * @returns Middleware function for the fetcher
    */
-  private createAuthMiddleware(authConfig: AuthConfig) {
+  private createAuthMiddleware() {
     return async (
       url: string,
       init: CustomRequestInit,
       next: (url: string, init: CustomRequestInit) => Promise<ApiResponse>,
     ) => {
-      // Skip authentication for auth endpoints
-      if (url.startsWith('/api/v1/auth/login') || url.startsWith('/api/v1/auth/register')) {
-        return next(url, init);
-      }
-
       // Create a new headers object
       const headers = new Headers(init.headers);
 
-      // Use custom token provider if available
-      if (authConfig.getToken) {
-        const token = await authConfig.getToken();
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      // Use API key if available
-      else if (authConfig.apiKey) {
-        headers.set('X-API-Key', authConfig.apiKey);
-      }
       // Use JWT token if available
-      else if (authConfig.token) {
-        headers.set('Authorization', `Bearer ${authConfig.token}`);
+      if (this._token) {
+        headers.set('Authorization', `Bearer ${this._token}`);
       }
 
       // Create a completely new init object with the updated headers
@@ -154,5 +138,21 @@ export class TaggyClient {
    */
   getFetcher(): TaggyFetcher<paths> {
     return this.fetcher;
+  }
+
+  /**
+   * Gets the current authentication token
+   * @returns The current JWT token
+   */
+  getToken(): string | undefined {
+    return this._token;
+  }
+
+  /**
+   * Sets the authentication token
+   * @param token JWT token for authentication
+   */
+  setToken(token?: string): void {
+    this._token = token;
   }
 }
