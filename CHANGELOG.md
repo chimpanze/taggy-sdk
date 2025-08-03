@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/chimpanze/taggy-sdk/compare/v0.2.2...v0.2.3) (2025-08-03)
+
+
+### Bug Fixes
+
+* updating readme ([#12](https://github.com/chimpanze/taggy-sdk/issues/12)) ([19d3ca7](https://github.com/chimpanze/taggy-sdk/commit/19d3ca7c16c30929314d153f07df6be184ae5eef))
+
 ## [0.2.2](https://github.com/chimpanze/taggy-sdk/compare/v0.2.1...v0.2.2) (2025-08-03)
 
 
